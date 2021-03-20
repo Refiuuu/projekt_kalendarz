@@ -1,21 +1,19 @@
 ﻿
 #include <iostream>
-#include <cmath>
-#include <cstdlib>
-#include <iomanip>
-#include <fstream>
 #include <string>
-#include "Class.h"
+#include "Fabryka.h"
+#include "Importer.h"
+#include "Export.h"
+
 using namespace std;
 
 int main() 
 {
-    Kalendarz tak;
-    ICS taak;
+    Fabryka fabryka;
+    Importer importer;
+    Export exporter;
 
     string znak;
-
-   
 
     while (znak != "c")
     {
@@ -39,24 +37,14 @@ int main()
 
         if (znak == "1")
         {
-            taak.wczytaj();
+            auto wydarzenia = importer.wczytaj();
+            exporter.export_do_pliku("dupa.txt", wydarzenia);
             cin >> znak;
             if (znak == "q") continue;
         }
-
-        if (znak == "2")
-        {
-            string c = tak.dodaj_notatke();
-
-           string a = tak.Data_zapisu_od();
-
-           cout << endl << endl << a;
-
-           string b = tak.Data_zapisu_do();
-
-           cout << endl << b;
-            cin >> znak;
-            if (znak == "q") continue;
+        if (znak == "2") {
+            auto wydarzenie = fabryka.StworzWydarzenie();
+            cout << wydarzenie.strDTSTART();
         }
     }
 
