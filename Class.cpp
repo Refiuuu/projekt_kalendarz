@@ -528,7 +528,11 @@ IcsType ICS::jakiTyp(string linia)
 }
 
 
-void test();
+void test() {
+  for (int i = 0; i < 10; i++) {
+    cout << "poszlo";
+  }
+}
  
 string wezDane(string linia) {
     return linia.substr(linia.find(':') + 1);
