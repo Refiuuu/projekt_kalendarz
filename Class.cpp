@@ -527,6 +527,9 @@ IcsType ICS::jakiTyp(string linia)
       
 }
 
+
+void test();
+ 
 string wezDane(string linia) {
     return linia.substr(linia.find(':') + 1);
 }
