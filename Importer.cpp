@@ -3,8 +3,13 @@
 #include <iostream>
 #include <fstream>
 
-vector<Wydarzenie> &Importer::wczytaj()
+vector<Wydarzenie> Importer::wczytaj()
 {
+    // Wydarzenie wyd;
+    // auto vec = vector<Wydarzenie>();
+    // vec.push_back(wyd);
+    // return vec;
+
     string nazwaPliku;
     cout << "PODAJ NAZWE PLIKU DO WYSWIETLENIA:" << endl;
 
@@ -23,11 +28,8 @@ vector<Wydarzenie> &Importer::wczytaj()
     string lokalizacja;
     string powtarzalnosc;
 
-    bool koniec = false;
-
-    Wydarzenie wydarzenie;
-
-    vector<Wydarzenie> *ww = new vector<Wydarzenie>();
+    auto wydarzenie = Wydarzenie();
+    auto wszystkie_wydarzenia = vector<Wydarzenie>();
     
     while (!plik.eof())
     {
@@ -35,7 +37,6 @@ vector<Wydarzenie> &Importer::wczytaj()
         {
             getline(plik, linia);
             auto typ = jakiTyp(linia);
-
 
             if (typ == IcsType::BEGIN_VEVENT) {
                 wydarzenie = Wydarzenie();
@@ -78,19 +79,13 @@ vector<Wydarzenie> &Importer::wczytaj()
             }
 
             if (typ == IcsType::END_VEVENT) {
-                //cout << wydarzenie.str();
-                ww->push_back(wydarzenie);
-                break;
+                wszystkie_wydarzenia.push_back(wydarzenie);
             }
         }
     }
     plik.close();
 
-    if (koniec == false) {
-        throw "brak znacznieka konca";
-    }
-
-    return *ww;
+    return wszystkie_wydarzenia;
 }
 
 IcsType Importer::jakiTyp(string linia)

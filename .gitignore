@@ -3,3 +3,5 @@ Debug/**
 *.vcxproj*
 x64/*
 *.sln
+*.dSYM
+projekt

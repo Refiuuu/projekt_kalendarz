@@ -31,7 +31,7 @@ enum IcsType {
 
 class Importer {
 public:
-    vector<Wydarzenie> &wczytaj();
+    vector<Wydarzenie> wczytaj();
 
 private:
     IcsType jakiTyp(string linia);
