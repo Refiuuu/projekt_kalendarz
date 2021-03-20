@@ -528,7 +528,13 @@ IcsType ICS::jakiTyp(string linia)
 }
 
 
-void test();
+void test()
+{
+    int x;
+    int y;
+
+    cout << "PODAJ COS" << "\n";
+}
  
 string wezDane(string linia) {
     return linia.substr(linia.find(':') + 1);
