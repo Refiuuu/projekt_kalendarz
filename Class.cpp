@@ -528,12 +528,10 @@ IcsType ICS::jakiTyp(string linia)
 }
 
 
-void test()
-{
-    int x;
-    int y;
-
-    cout << "PODAJ COS" << "\n";
+void test() {
+  for (int i = 0; i < 10; i++) {
+    cout << "poszlo";
+  }
 }
  
 string wezDane(string linia) {
