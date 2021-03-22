@@ -27,6 +27,7 @@ enum IcsType {
     STATUS,
     TRANSP,
     ERROR = -1
+      
 };
 
 class Importer {
@@ -36,8 +37,8 @@ public:
     string wczytaj_nazwe();
 
 private:
-    IcsType jakiTyp(string linia);
+    IcsType wykryj_typ(string linia);
 
-    void wezDetal(IcsType typ, string linia, Wydarzenie &wydarzenie);
+    void ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie);
    
 };

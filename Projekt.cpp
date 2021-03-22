@@ -12,6 +12,8 @@ int main()
     Importer importer;
     Export exporter;
 
+    // to jest tak tymczasowo
+    vector<Wydarzenie> wydarzenia = vector<Wydarzenie>();
 
     string znak;
 
@@ -37,15 +39,13 @@ int main()
 
         if (znak == "1")
         {
-            auto wydarzenia = importer.wczytaj();
-
-
+            wydarzenia = importer.wczytaj();
             cin >> znak;
             if (znak == "q") continue;
         }
         if (znak == "2") {
-            auto zapis = exporter.export_do_pliku();
-            cout << endl;
+            auto zapis = exporter.export_do_pliku("dupa.txt", wydarzenia);
+            cout << "zapisano" << endl;
             cin >> znak;
         }
     }

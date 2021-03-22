@@ -21,39 +21,22 @@ public:
     string lokalizacja;
     string sequence;
     string created;
+
+    // TODO: potrzebne?
     string godzina;
     string aktualna;
     Powtarzanie powtarzanie;
 
-
-    string strDTSTART() {
-        return "Wydarzenie POCZATEK (" + data_start + ")";
+    string str() {
+        return "Wydarzenie POCZATEK (" 
+                      "data_start: " +  data_start + ", "
+                   +    "data_end: " +    data_end + ", "
+                   +       "tytul: " +       tytul + ", "
+                   +     "notatka: " +     notatka + ", "
+                   + "lokalizacja: " + lokalizacja + ", "
+                   +    "sequence: " +    sequence + ", "
+                   +     "created: " +     created + ")";
     }
-
-    string strDTEND() {
-        return "Wydarzenie KONIEC (" + data_end + ")";
-    }
-
-    string strCREATED() {
-        return "Wydarzenie STWORZONO (" + created + ")";
-    }
-
-    string strDESCRIPTION() {
-        return "Wydarzenie NOTATKA (" + notatka + ")";
-    }
-
-    string strLOCATION() {
-        return "Wydarzenie LOKALIZACJA (" + lokalizacja + ")";
-    }
-
-    string strSEQUENCE() {
-        return "Wydarzenie POWTARZANIE (" + sequence + ")";
-    }
-
-    string strSUMMARY() {
-        return "Wydarzenie TYTUL (" + tytul + ")";
-    }
-
 };
 
 

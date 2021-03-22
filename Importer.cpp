@@ -4,6 +4,7 @@
 #include <fstream>
 
 
+// to jest spoko
  string Importer::wczytaj_nazwe()
 {
     cout << "PODAJ NAZWE PLIKU DO WYSWIETLENIA:" << endl;
@@ -15,6 +16,19 @@
 
     return nazwaPliku;
 }
+
+//TODO: vector<Wydarzenie> Importer::wczytaj(string nazwaPliku) - tak będzie lepiej
+// a wczytaj_nazwe wywołaj przed wczytywaniem danych w pliku Projekt.cpp i przekaz nazwe do wczytaj()
+// np.
+// auto nazwa_pliku = importer.wczytaj_nazwe();
+// auto dane = importer.wczytaj(nazwa_pliku);
+//
+// albo do testów bedzie ci latwiej
+//
+// auto nazwa_pliku = string("kalendarz.ics");
+// auto dane = importer.wczytaj(nazwa_pliku);
+//
+// w ten sposob nie bedziesz musial za kazdym razem podawac nazwy pliku!
 
 vector<Wydarzenie> Importer::wczytaj()
 {
@@ -42,50 +56,21 @@ vector<Wydarzenie> Importer::wczytaj()
         {
 
             getline(plik, linia);
-            auto typ = jakiTyp(linia);
+            auto typ = wykryj_typ(linia);
 
             if (typ == IcsType::BEGIN_VEVENT) {
                 wydarzenie = Wydarzenie();
-                cout << endl;
-            }
-
-            if (typ == IcsType::DTSTART) { // da sie zrobic w 3 ifach
-                wezDetal(typ, linia, wydarzenie);
-                cout << wydarzenie.strDTSTART() << endl;
-            }
-
-            if (typ == IcsType::DTEND) {
-                wezDetal(typ, linia, wydarzenie);
-                cout << wydarzenie.strDTEND() << endl;
-            }
-
-            if (typ == IcsType::CREATED) {
-                wezDetal(typ, linia, wydarzenie);
-                cout << wydarzenie.strCREATED() << endl;
-            }
-
-            if (typ == IcsType::DESCRIPTION) {
-                wezDetal(typ, linia, wydarzenie);
-                cout << wydarzenie.strDESCRIPTION() << endl;
-            }
-
-            if (typ == IcsType::LOCATION) {
-                wezDetal(typ, linia, wydarzenie);
-                cout << wydarzenie.strLOCATION() << endl;
-            }
-
-            if (typ == IcsType::SEQUENCE) {
-                wezDetal(typ, linia, wydarzenie);
-                cout << wydarzenie.strSEQUENCE() << endl;
-            }
-
-            if (typ == IcsType::SUMMARY) {
-                wezDetal(typ, linia, wydarzenie);
-                cout << wydarzenie.strSUMMARY() << endl;
+                continue;
             }
 
             if (typ == IcsType::END_VEVENT) {
+                cout << wydarzenie.str() << endl;
                 wszystkie_wydarzenia.push_back(wydarzenie);
+                continue;
+            }
+
+            if (typ != IcsType::ERROR && typ != IcsType::END_VCALENDAR) {
+                ustaw_pole(typ, linia, wydarzenie);
             }
         }
     }
@@ -96,15 +81,13 @@ vector<Wydarzenie> Importer::wczytaj()
 }
 
 
-IcsType Importer::jakiTyp(string linia)
+IcsType Importer::wykryj_typ(string linia)
 {
-    if (linia.find("BEGIN:VEVENT") != -1)
-    {
+    if (linia.find("BEGIN:VEVENT") != -1) {
         return IcsType::BEGIN_VEVENT;
     }
 
-    if (linia.find("END:VEVENT") != -1)
-    {
+    if (linia.find("END:VEVENT") != -1) {
         return IcsType::END_VEVENT;
     }
 
@@ -143,14 +126,16 @@ IcsType Importer::jakiTyp(string linia)
     if (linia.find("TRANSP") != -1) {
         return IcsType::TRANSP;
     }
+
+    return IcsType::ERROR;
       
 }
  
-string wezDane(string linia) { // powinno nalezec do klasy i byc prwatne
+string wez_dane(string linia) { // TODO powinno nalezec do klasy i byc prwatne
     return linia.substr(linia.find(':') + 1);
 }
 
-string getDate(string date) {
+string wez_date_godzine(string date) { // TODO powinno nalezec do klasy i byc prywaten
 
     string rok;
     string miesiac;
@@ -176,29 +161,29 @@ string getDate(string date) {
 
 }
 
-void Importer::wezDetal(IcsType typ, string linia, Wydarzenie &wydarzenie)
+void Importer::ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie)
 {
     switch (typ) {
     case IcsType::DESCRIPTION:
-        wydarzenie.notatka = wezDane(linia);
+        wydarzenie.notatka = wez_dane(linia);
         break;
     case IcsType::SUMMARY:
-        wydarzenie.tytul = wezDane(linia);
+        wydarzenie.tytul = wez_dane(linia);
         break;
     case IcsType::LOCATION:
-        wydarzenie.lokalizacja = wezDane(linia);
+        wydarzenie.lokalizacja = wez_dane(linia);
         break;
     case IcsType::DTSTART:
-        wydarzenie.data_start = getDate(wezDane(linia));
+        wydarzenie.data_start = wez_date_godzine(wez_dane(linia));
         break;
     case IcsType::DTEND:
-        wydarzenie.data_end = getDate(wezDane(linia));
+        wydarzenie.data_end = wez_date_godzine(wez_dane(linia));
         break;
     case IcsType::CREATED:
-        wydarzenie.created = getDate(wezDane(linia));
+        wydarzenie.created = wez_date_godzine(wez_dane(linia));
         break;
     case IcsType::SEQUENCE:
-        wydarzenie.sequence = wezDane(linia);
+        wydarzenie.sequence = wez_dane(linia);
         break;
     }
 }
