@@ -22,6 +22,7 @@ public:
     string sequence;
     string created;
     string godzina;
+    string aktualna;
     Powtarzanie powtarzanie;
 
 

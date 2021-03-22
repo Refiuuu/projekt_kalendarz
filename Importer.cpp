@@ -1,24 +1,26 @@
 #include "Importer.h"
-
+#include "Export.h"
 #include <iostream>
 #include <fstream>
 
-vector<Wydarzenie> Importer::wczytaj()
-{
-    // Wydarzenie wyd;
-    // auto vec = vector<Wydarzenie>();
-    // vec.push_back(wyd);
-    // return vec;
 
-    string nazwaPliku;
+ string Importer::wczytaj_nazwe()
+{
     cout << "PODAJ NAZWE PLIKU DO WYSWIETLENIA:" << endl;
+    string nazwaPliku;
 
     cin >> nazwaPliku;
+
     nazwaPliku += ".ics";
 
+    return nazwaPliku;
+}
+
+vector<Wydarzenie> Importer::wczytaj()
+{
     ifstream plik;
 
-    plik.open(nazwaPliku);
+    plik.open(wczytaj_nazwe());
 
     string linia;
     string tytul;
@@ -28,13 +30,17 @@ vector<Wydarzenie> Importer::wczytaj()
     string lokalizacja;
     string powtarzalnosc;
 
+    string TablicaLinii[7];
+
     auto wydarzenie = Wydarzenie();
     auto wszystkie_wydarzenia = vector<Wydarzenie>();
+
     
     while (!plik.eof())
     {
         if (plik.good())
         {
+
             getline(plik, linia);
             auto typ = jakiTyp(linia);
 
@@ -83,10 +89,12 @@ vector<Wydarzenie> Importer::wczytaj()
             }
         }
     }
+
     plik.close();
 
     return wszystkie_wydarzenia;
 }
+
 
 IcsType Importer::jakiTyp(string linia)
 {

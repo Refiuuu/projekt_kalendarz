@@ -9,9 +9,9 @@ using namespace std;
 
 int main() 
 {
-    Fabryka fabryka;
     Importer importer;
     Export exporter;
+
 
     string znak;
 
@@ -38,13 +38,15 @@ int main()
         if (znak == "1")
         {
             auto wydarzenia = importer.wczytaj();
-            exporter.export_do_pliku("dupa.txt", wydarzenia);
+
+
             cin >> znak;
             if (znak == "q") continue;
         }
         if (znak == "2") {
-            auto wydarzenie = fabryka.StworzWydarzenie();
-            cout << wydarzenie.strDTSTART();
+            auto zapis = exporter.export_do_pliku();
+            cout << endl;
+            cin >> znak;
         }
     }
 

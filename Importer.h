@@ -31,11 +31,13 @@ enum IcsType {
 
 class Importer {
 public:
+
     vector<Wydarzenie> wczytaj();
+    string wczytaj_nazwe();
 
 private:
     IcsType jakiTyp(string linia);
 
     void wezDetal(IcsType typ, string linia, Wydarzenie &wydarzenie);
-
+   
 };

@@ -1,15 +1,18 @@
 #include "Fabryka.h"
-
 #include <iostream>
+#include <ctime>
+#pragma warning(disable : 4996)
 
 Wydarzenie Fabryka::StworzWydarzenie()
 {
     Wydarzenie w;
+
     w.data_start = Data_zapisu_od();
     w.data_end = Data_zapisu_do();
     w.notatka = dodaj_notatke();
     w.tytul = dodaj_tytul();
     w.lokalizacja = dodaj_lokalizacje();
+    w.aktualna = AktualnaData();
     return w;
 }
 
@@ -18,6 +21,7 @@ bool Fabryka::czy_przestepny(int rok)
     if ((rok % 4 == 0 && rok % 100 != 0) || rok % 400 == 0) return true;
     else return false;
 }
+
 /*
 void Kalendarz::wyswietl()
 {
@@ -109,6 +113,7 @@ void Kalendarz::wyswietl()
     }
 }
 */
+
 string Fabryka::dodaj_tytul()
 {
     string nazwa;
@@ -122,10 +127,11 @@ string Fabryka::dodaj_notatke()
 {
     bool CzyTak = false;
     string nazwa;
+    string wybor;
     cout << "Czy chcesz dodac notatke do swjego wydarzenia ? [T/N}" << endl;
 
-    cin >> nazwa;
-    if (nazwa == "T")
+    cin >> wybor;
+    if (wybor == "T")
     {
         cout << "Nizej wpisz swoja notatke:" << endl;
         cin >> nazwa;
@@ -135,7 +141,7 @@ string Fabryka::dodaj_notatke()
 
     }
 
-    return string(nazwa);
+    return string("DESCRIPTION:" + nazwa);
 }
 
 string Fabryka::dodaj_lokalizacje()
@@ -149,7 +155,7 @@ string Fabryka::dodaj_lokalizacje()
     cout << endl;
     cout << "Kraj: " << "\t"; cin >> kraj;
 
-    return string(miasto + "/" + "," + " " + kraj);
+    return string("LOCATION:" + miasto + "/" + "," + " " + kraj);
 
 }
 
@@ -355,17 +361,17 @@ string Fabryka::dodaj_godzine()
     string Minuta = to_string(minuta);
     string Sekunda = to_string(sekunda);
 
-    if (godzina > 0 && godzina < 10)
+    if (godzina >= 0 && godzina < 10)
     {
         Godzina = "0" + Godzina;
     }
 
-    if (minuta > 0 && minuta < 10)
+    if (minuta >= 0 && minuta < 10)
     {
         Minuta = "0" + Minuta;
     }
 
-    if (sekunda > 0 && sekunda < 10)
+    if (sekunda >= 0 && sekunda < 10)
     {
         Sekunda = "0" + Sekunda;
     }
@@ -377,7 +383,7 @@ string Fabryka::dodaj_godzine()
 string Fabryka::Data_zapisu_od()
 {
     cout << "Podaj od kiedy chcialbys dodac wydarzenie?" << "\n";
-    cout << "Zapisz ja w formacie [RRRRMDD]" << "\n";
+    cout << "Zapisz ja w formacie [RRRRMMDD]" << "\n";
     cout << "Po wpisanym roku wcisniej ENTER etc..." << "\n";
 
     string a = Fabryka::dodaj_data();
@@ -399,4 +405,48 @@ string Fabryka::Data_zapisu_do()
     cout << "Podaj do ktorej ma byc to wydarzenie w formacie godzina minuta sekunda : " << "\n";
     string b = Fabryka::dodaj_godzine();
     return string("DTEND:" + a + b);
+}
+
+string Fabryka::AktualnaData()
+{
+    time_t czas_m;
+    time(&czas_m);
+    tm* czas = localtime(&czas_m);
+    rok = czas->tm_year + 1900;
+
+    miesiac = czas->tm_mon + 1;
+    dzien = czas->tm_mday;
+    godzina = czas->tm_hour;
+    minuta = czas->tm_min;
+    sekunda = czas->tm_sec;
+
+    Miesiac = to_string(miesiac);
+    Dzien = to_string(dzien);
+    Godzina = to_string(godzina);
+    Minuta = to_string(minuta);
+    Sekunda = to_string(sekunda);
+
+    if (miesiac > 0 && miesiac < 10)
+    {
+        Miesiac = "0" + Miesiac;
+    }
+    if (dzien > 0 && dzien < 10)
+    {
+        Dzien = "0" + Dzien;
+    }
+    if (godzina > 0 && godzina < 10)
+    {
+        Godzina = "0" + Godzina;
+    }
+    if (minuta > 0 && minuta < 10)
+    {
+        Minuta = "0" + Minuta;
+    }
+    if (sekunda > 0 && sekunda < 10)
+    {
+        Sekunda = "0" + Sekunda;
+    }
+
+
+    return string(to_string(rok) + Miesiac + Dzien + "T" +Godzina + Minuta + Sekunda + "Z" );
 }
