@@ -37,8 +37,8 @@ public:
     string wczytaj_nazwe();
 
 private:
-    IcsType wykryj_typ(string linia);
 
+    IcsType wykryj_typ(string linia);
     void ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie);
    
 };

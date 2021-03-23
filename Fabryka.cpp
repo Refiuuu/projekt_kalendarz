@@ -132,7 +132,7 @@ string Fabryka::dodaj_notatke()
     cout << "Czy chcesz dodac notatke do swjego wydarzenia ? [T/N}" << endl;
 
     cin >> wybor;
-    if (wybor == "T")
+    if (wybor == "T" || wybor =="t")
     {
         cout << "Nizej wpisz swoja notatke:" << endl;
         cin >> nazwa;
@@ -384,12 +384,13 @@ string Fabryka::dodaj_godzine()
 string Fabryka::Data_zapisu_od()
 {
     cout << "Podaj od kiedy chcialbys dodac wydarzenie?" << "\n";
-    cout << "Zapisz ja w formacie [RRRRMMDD]" << "\n";
-    cout << "Po wpisanym roku wcisniej ENTER etc..." << "\n";
+    cout << "Zapisz ja w formacie [np 2021 12 23}" << "\n";
+    cout << "Po wpisanym roku wcisnij ENTER etc..." << "\n";
 
     string a = Fabryka::dodaj_data();
     cout << endl;
-    cout << "Podaj od ktorej ma byc to wydarzenie w formacie godzina minuta sekunda : " << "\n";
+    cout << "Podaj od ktorej ma byc to wydarzenie w formacie [23 34 54]: " << "\n";
+    cout << "Po wpisanej godzinie wcisnij ENTER etc..." << "\n";
     string b = Fabryka::dodaj_godzine();
 
     return string("DTSTART:" + a + b);
@@ -398,12 +399,12 @@ string Fabryka::Data_zapisu_od()
 string Fabryka::Data_zapisu_do()
 {
     cout << "Podaj do kiedy chcialbys dodac wydarzenie?" << "\n";
-    cout << "Zapisz ja w formacie [RRRRMDD]" << "\n";
+    cout << "Zapisz ja w formacie [2021 11 1]" << "\n";
     cout << "Po wpisanym roku wcisniej ENTER etc..." << "\n";
 
     string a = Fabryka::dodaj_data();
     cout << endl;
-    cout << "Podaj do ktorej ma byc to wydarzenie w formacie godzina minuta sekunda : " << "\n";
+    cout << "Podaj do ktorej ma byc to wydarzenie w formacie [12 00 00] : " << "\n";
     string b = Fabryka::dodaj_godzine();
     return string("DTEND:" + a + b);
 }

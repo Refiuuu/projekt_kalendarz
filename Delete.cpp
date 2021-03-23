@@ -29,9 +29,9 @@ void Delete::zapis_do_pliku(string nazwa_pliku)
 
 	auto wydarzenie = Data;
 
-	if(wydarzenie ==  )
+	//Je¿eli 'wydarzenie = Data'   znajdzie z pliku    'wydarzenie = temu co wpisane'    to wtedy usuñ od poprzedniej linijki do END:VEVENT w³¹cznie;
 
-
-
+	//if(wydarzenie ==  )
 
 }
+ 

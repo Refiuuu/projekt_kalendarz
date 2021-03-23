@@ -4,7 +4,7 @@
 #include <fstream>
 
 
-// to jest spoko
+
  string Importer::wczytaj_nazwe()
 {
     cout << "PODAJ NAZWE PLIKU: " << endl;
@@ -79,7 +79,6 @@ vector<Wydarzenie> Importer::wczytaj()
 
     return wszystkie_wydarzenia;
 }
-
 
 IcsType Importer::wykryj_typ(string linia)
 {

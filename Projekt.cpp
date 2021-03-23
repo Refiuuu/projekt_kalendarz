@@ -14,7 +14,8 @@ int main()
     Export exporter;
     Delete del;
 
-    // to jest tak tymczasowo
+    //To jest tak tymczasowo, poźniej zostanie zmienione na liste :)
+
     vector<Wydarzenie> wydarzenia = vector<Wydarzenie>();
 
     string znak;
@@ -56,17 +57,6 @@ int main()
             cin >> znak;
         }
     }
-    
-
-    
-   
-   /*
-   cout << endl << endl;
-
-    taak.wczytaj("");
-
-    cout << endl;
-    */
 
     return 0;
 }
