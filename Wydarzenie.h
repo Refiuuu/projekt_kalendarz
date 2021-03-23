@@ -29,13 +29,13 @@ public:
 
     string str() {
         return "Wydarzenie POCZATEK (" 
-                      "data_start: " +  data_start + ", "
-                   +    "data_end: " +    data_end + ", "
-                   +       "tytul: " +       tytul + ", "
-                   +     "notatka: " +     notatka + ", "
-                   + "lokalizacja: " + lokalizacja + ", "
-                   +    "sequence: " +    sequence + ", "
-                   +     "created: " +     created + ")";
+                      "data_start: " +  data_start + "\n"
+                   +    "data_end: " +    data_end + "\n"
+                   +       "tytul: " +       tytul + "\n"
+                   +     "notatka: " +     notatka + "\n"
+                   + "lokalizacja: " + lokalizacja + "\n"
+                   +    "sequence: " +    sequence + "\n"
+                   +     "created: " +     created + ")\n";
     }
 };
 

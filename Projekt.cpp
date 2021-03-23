@@ -4,6 +4,7 @@
 #include "Fabryka.h"
 #include "Importer.h"
 #include "Export.h"
+#include "Delete.h"
 
 using namespace std;
 
@@ -11,6 +12,7 @@ int main()
 {
     Importer importer;
     Export exporter;
+    Delete del;
 
     // to jest tak tymczasowo
     vector<Wydarzenie> wydarzenia = vector<Wydarzenie>();
@@ -19,7 +21,7 @@ int main()
 
     while (znak != "c")
     {
-        
+
         cout << "Witaj w kalendarzu ALFA, zaraz zostanie wyswietlone menu mozliwych operacji :)" << "\n";
         cout << "Aby przejsc dalej wcisnij q:" << "\t";
 
@@ -32,7 +34,7 @@ int main()
         cout << endl;
 
         cout << "1.Wyswietlanie eventow zapisanych w pliku .ics " << "\n" << "2.Dodanie eventu do pliku .ics" << "\n" << "3.Usuniecie eventu z pliku .ics";
-        
+
         cout << endl;
 
         cin >> znak;
@@ -48,7 +50,13 @@ int main()
             cout << "zapisano" << endl;
             cin >> znak;
         }
+        if (znak == "3") {
+            del.zapis_do_pliku("dupa.txt");
+            cout << "zapisano" << endl;
+            cin >> znak;
+        }
     }
+    
 
     
    

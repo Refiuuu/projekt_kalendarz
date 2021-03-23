@@ -7,7 +7,7 @@
 // to jest spoko
  string Importer::wczytaj_nazwe()
 {
-    cout << "PODAJ NAZWE PLIKU DO WYSWIETLENIA:" << endl;
+    cout << "PODAJ NAZWE PLIKU: " << endl;
     string nazwaPliku;
 
     cin >> nazwaPliku;
