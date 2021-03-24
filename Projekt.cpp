@@ -9,78 +9,84 @@
 
 using namespace std;
 
+void pokazListe(vector<Wydarzenie> &lista) {
+  for (int i = 1; i <= lista.size(); i++) {
+    cout << i << ": " <<lista.at(i-1).str() << endl;
+  }
+}
+
+int pobierzNumer(int max) {
+    int element;
+    do {
+      cout << "Ktory element chcesz usunac?\n";
+      cin >> element;
+    } while (element <= 0 && element > max);
+    return element;
+}
+
 int main() 
 {
     Importer importer;
     Zarzadca zarzadca;
     Export exporter;
     Fabryka fabryka;
-    Wydarzenie wydarzenie;
     
-
-    //To jest tak tymczasowo, poźniej zostanie zmienione na liste :)
-    vector<Wydarzenie> wydarzenia = vector<Wydarzenie>();
-
-    string nazwaPliku;
-    string znak;
     string wpisz;
 
-    
-
     cout << "WITAJ W WERSJI ALFA :)\t";
-    nazwaPliku = importer.wczytaj_nazwe();
-    
-
     while (wpisz != "quit")
     {
-        cout << endl;
-        Menu:
-
-        cout << "1.Wczytaj eventy\n";
-        cout << "2.Dodaj Event\n";
-        cout << "3.Usun Event\n";
-        cout << "4.Modyfikuj\n";
+        cout << endl
+           << "1.Wczytaj eventy\n"
+           << "2.Dodaj Event\n"
+           << "3.Usun Event\n"
+           << "4.Modyfikuj\n"
+           << "5.Export\n"
+           << "P.Pokaz\n"
+           << "quit zamyka aplikacje\n";
         cin >> wpisz;
 
         if (wpisz == "1")
         {
-            wydarzenia = importer.wczytaj(nazwaPliku);
-            wydarzenia = zarzadca.Podajliste();
-            cin >> wpisz;
-            goto Menu;
+            auto nazwaPliku = importer.wczytaj_nazwe();
+            auto wydarzenia = importer.wczytaj(nazwaPliku);
+            zarzadca.DodajWydarzenia(wydarzenia);
         }
 
-
-        if (wpisz == "2")
+        else if (wpisz == "2")
         {   
-
-            wydarzenie = fabryka.StworzWydarzenie();
+            auto wydarzenie = fabryka.StworzWydarzenie();
             zarzadca.DodajWydarzenie(wydarzenie);
-            exporter.export_do_pliku("zapis.txt", wydarzenia); // tutaj wpisujemy nazwe do zapisu i jej format.
-           
-            cin >> wpisz;
-            goto Menu;
         }
 
-        if (wpisz == "3")
+        else if (wpisz == "3")
+        {
+          auto element = pobierzNumer(zarzadca.Podajliste().size());
+          zarzadca.UsunWydarzenia(element);
+        }
+
+        else if (wpisz == "4")
         {
 
-
-
-            cin >> wpisz;
-            goto Menu;
         }
 
-        if (wpisz == "4")
-        {
-
-
-
-            cin >> wpisz;
-            goto Menu;
+        else if (wpisz == "5") {
+          auto lista = zarzadca.Podajliste();
+          auto nazwa_do_exportu = importer.wczytaj_nazwe();
+          exporter.export_do_pliku(nazwa_do_exportu, lista);
+          cout << "Zapisane\n";
         }
-       
+
+        else if (wpisz == "P") {
+          auto lista = zarzadca.Podajliste();
+          pokazListe(lista);
+        }
+
+        else {
+          cout << "Nie ma takiej opcji" << endl;
+        }
     }
 
     return 0;
 }
+

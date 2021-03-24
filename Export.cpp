@@ -29,17 +29,17 @@ bool Export::export_do_pliku(string nazwa_pliku, vector<Wydarzenie> &wydarzenia)
 void Export::zapisz_wydarzenie(Wydarzenie &wydarzenie, ofstream &plik) 
 {
       plik << "BEGIN:VEVENT" << endl
-        << wydarzenie.data_start << endl
-        << wydarzenie.data_end << endl
+        << "DTSTART:" << wydarzenie.data_start << endl
+        << "DTEND:" << wydarzenie.data_end << endl
         << "DTSTAMP:20210318T170142Z" << endl
         << "UID:110l8lpmu394madloslhqi91r0@google.com" << endl
-        << "CREATED:" <<wydarzenie.aktualna << endl
-        << wydarzenie.notatka << endl
-        << "LAST-MODIFIED:"<< wydarzenie.aktualna << endl
-        << wydarzenie.lokalizacja << endl
+        << "CREATED:" << wydarzenie.created << endl
+        << "SUMMARY:" << wydarzenie.notatka << endl
+        << "LAST-MODIFIED:"<< wydarzenie.created << endl
+        << "LOCALIZATION:" << wydarzenie.lokalizacja << endl
         << "SEQUENCE:0" << endl
         << "STATUS:CONFIRMED" << endl
-        << wydarzenie.tytul << endl
+        << "DESCRIPTION:" << wydarzenie.tytul << endl
         << "TRANSP:OPAQUE" << endl
         << "END:VEVENT" << endl;
 }

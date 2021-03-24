@@ -13,7 +13,7 @@ Wydarzenie Fabryka::StworzWydarzenie()
     w.notatka = dodaj_notatke();
     w.tytul = dodaj_tytul();
     w.lokalizacja = dodaj_lokalizacje();
-    w.aktualna = AktualnaData();
+    w.created = AktualnaData();
     return w;
 }
 
@@ -137,12 +137,8 @@ string Fabryka::dodaj_notatke()
         cout << "Nizej wpisz swoja notatke:" << endl;
         cin >> nazwa;
     }
-    else
-    {
 
-    }
-
-    return string("DESCRIPTION:" + nazwa);
+    return nazwa;
 }
 
 string Fabryka::dodaj_lokalizacje()
@@ -156,7 +152,7 @@ string Fabryka::dodaj_lokalizacje()
     cout << endl;
     cout << "Kraj: " << "\t"; cin >> kraj;
 
-    return string("LOCATION:" + miasto + "/" + "," + " " + kraj);
+    return miasto + "/" + "," + " " + kraj;
 
 }
 
@@ -393,7 +389,7 @@ string Fabryka::Data_zapisu_od()
     cout << "Po wpisanej godzinie wcisnij ENTER etc..." << "\n";
     string b = Fabryka::dodaj_godzine();
 
-    return string("DTSTART:" + a + b);
+    return a + b;
 }
 
 string Fabryka::Data_zapisu_do()
@@ -406,7 +402,7 @@ string Fabryka::Data_zapisu_do()
     cout << endl;
     cout << "Podaj do ktorej ma byc to wydarzenie w formacie [12 00 00] : " << "\n";
     string b = Fabryka::dodaj_godzine();
-    return string("DTEND:" + a + b);
+    return a + b;
 }
 
 string Fabryka::AktualnaData()
@@ -450,5 +446,5 @@ string Fabryka::AktualnaData()
     }
 
 
-    return string(to_string(rok) + Miesiac + Dzien + "T" +Godzina + Minuta + Sekunda + "Z" );
+    return to_string(rok) + Miesiac + Dzien + "T" + Godzina + Minuta + Sekunda + "Z";
 }

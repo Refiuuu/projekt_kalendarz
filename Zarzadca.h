@@ -13,7 +13,7 @@ class Zarzadca
 {
 public:
 
-    void dodaj_wydarzenia(vector<Wydarzenie> lista);
+  void DodajWydarzenia(vector<Wydarzenie> &nowe_wydarzenia);
 
 	void DodajWydarzenie(Wydarzenie wydarzenia);
 
