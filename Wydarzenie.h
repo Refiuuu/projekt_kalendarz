@@ -23,9 +23,6 @@ public:
     string created;
 
     // TODO: potrzebne?
-
-    string godzina;
-    string aktualna;
     Powtarzanie powtarzanie;
 
     string str() {

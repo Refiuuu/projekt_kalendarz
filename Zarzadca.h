@@ -1,13 +1,8 @@
 #pragma once
 #include "Wydarzenie.h"
-#include "Export.h"
-#include "Fabryka.h"
-#include "Importer.h"
 #include <vector>
 
 using namespace std;
-
-
 
 class Zarzadca
 {
@@ -15,7 +10,7 @@ public:
 
   void DodajWydarzenia(vector<Wydarzenie> &nowe_wydarzenia);
 
-	void DodajWydarzenie(Wydarzenie wydarzenia);
+	void DodajWydarzenie(Wydarzenie &wydarzenia);
 
 	void UsunWydarzenia(int numerwydarzenia);
 

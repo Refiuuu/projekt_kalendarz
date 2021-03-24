@@ -5,7 +5,7 @@
 #include "Importer.h"
 #include "Export.h"
 #include "Zarzadca.h"
-#include"Wydarzenie.h"
+#include "Wydarzenie.h"
 
 using namespace std;
 
@@ -61,7 +61,9 @@ int main()
 
         else if (wpisz == "3")
         {
-          auto element = pobierzNumer(zarzadca.Podajliste().size());
+          auto lista = zarzadca.Podajliste();
+          pokazListe(lista);
+          auto element = pobierzNumer(lista.size());
           zarzadca.UsunWydarzenia(element);
         }
 

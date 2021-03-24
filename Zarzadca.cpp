@@ -7,7 +7,7 @@ void Zarzadca::DodajWydarzenia(vector<Wydarzenie> &nowe_wydarzenia)
   }
 }
 
-void Zarzadca::DodajWydarzenie(Wydarzenie wydarzenia)
+void Zarzadca::DodajWydarzenie(Wydarzenie &wydarzenia)
 {
   lista.push_back(wydarzenia);
 }
@@ -16,7 +16,8 @@ void Zarzadca::UsunWydarzenia(int numerwydarzenia)
 {
   numerwydarzenia = numerwydarzenia - 1;
   if (numerwydarzenia < lista.size() && numerwydarzenia >= 0) {
-    lista.erase(lista.begin() + numerwydarzenia);
+    auto pozycja = lista.begin() + numerwydarzenia;
+    lista.erase(pozycja);
   }
 }
 
