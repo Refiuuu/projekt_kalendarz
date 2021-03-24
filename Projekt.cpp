@@ -4,58 +4,82 @@
 #include "Fabryka.h"
 #include "Importer.h"
 #include "Export.h"
-#include "Delete.h"
+#include "Zarzadca.h"
+#include"Wydarzenie.h"
 
 using namespace std;
 
 int main() 
 {
     Importer importer;
+    Zarzadca zarzadca;
     Export exporter;
-    Delete del;
+    Fabryka fabryka;
+    Wydarzenie wydarzenie;
+    
 
     //To jest tak tymczasowo, poźniej zostanie zmienione na liste :)
-
     vector<Wydarzenie> wydarzenia = vector<Wydarzenie>();
 
+    string nazwaPliku;
     string znak;
+    string wpisz;
 
-    while (znak != "c")
+    
+
+    cout << "WITAJ W WERSJI ALFA :)\t";
+    nazwaPliku = importer.wczytaj_nazwe();
+    
+
+    while (wpisz != "quit")
     {
-
-        cout << "Witaj w kalendarzu ALFA, zaraz zostanie wyswietlone menu mozliwych operacji :)" << "\n";
-        cout << "Aby przejsc dalej wcisnij q:" << "\t";
-
-        cin >> znak;
-        while (znak != "q")
-        {
-            cout << "napisz q:" << "\t";
-            cin >> znak;
-        }
         cout << endl;
+        Menu:
 
-        cout << "1.Wyswietlanie eventow zapisanych w pliku .ics " << "\n" << "2.Dodanie eventu do pliku .ics" << "\n" << "3.Usuniecie eventu z pliku .ics";
+        cout << "1.Wczytaj eventy\n";
+        cout << "2.Dodaj Event\n";
+        cout << "3.Usun Event\n";
+        cout << "4.Modyfikuj\n";
+        cin >> wpisz;
 
-        cout << endl;
-
-        cin >> znak;
-
-        if (znak == "1")
+        if (wpisz == "1")
         {
-            wydarzenia = importer.wczytaj();
-            cin >> znak;
-            if (znak == "q") continue;
+            wydarzenia = importer.wczytaj(nazwaPliku);
+            wydarzenia = zarzadca.Podajliste();
+            cin >> wpisz;
+            goto Menu;
         }
-        if (znak == "2") {
-            auto zapis = exporter.export_do_pliku("dupa.txt", wydarzenia);
-            cout << "zapisano" << endl;
-            cin >> znak;
+
+
+        if (wpisz == "2")
+        {   
+
+            wydarzenie = fabryka.StworzWydarzenie();
+            zarzadca.DodajWydarzenie(wydarzenie);
+            exporter.export_do_pliku("zapis.txt", wydarzenia); // tutaj wpisujemy nazwe do zapisu i jej format.
+           
+            cin >> wpisz;
+            goto Menu;
         }
-        if (znak == "3") {
-            del.zapis_do_pliku("dupa.txt");
-            cout << "zapisano" << endl;
-            cin >> znak;
+
+        if (wpisz == "3")
+        {
+
+
+
+            cin >> wpisz;
+            goto Menu;
         }
+
+        if (wpisz == "4")
+        {
+
+
+
+            cin >> wpisz;
+            goto Menu;
+        }
+       
     }
 
     return 0;

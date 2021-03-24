@@ -13,8 +13,6 @@ class Export
 {
 public:
     bool export_do_pliku(string nazwa_pliku, vector<Wydarzenie> & wydarzenia);
-
-private:
     void zapisz_wydarzenie(Wydarzenie &wydarzenie, ofstream &plik);
     
 };

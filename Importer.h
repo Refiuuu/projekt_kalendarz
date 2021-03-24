@@ -33,7 +33,7 @@ enum IcsType {
 class Importer {
 public:
 
-    vector<Wydarzenie> wczytaj();
+    vector<Wydarzenie> wczytaj(string Wczytaj);
     string wczytaj_nazwe();
 
 private:

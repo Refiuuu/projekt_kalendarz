@@ -7,7 +7,7 @@
 
  string Importer::wczytaj_nazwe()
 {
-    cout << "PODAJ NAZWE PLIKU: " << endl;
+    cout << "PODAJ NAZWE PLIKU:\t";
     string nazwaPliku;
 
     cin >> nazwaPliku;
@@ -30,11 +30,11 @@
 //
 // w ten sposob nie bedziesz musial za kazdym razem podawac nazwy pliku!
 
-vector<Wydarzenie> Importer::wczytaj()
+ vector<Wydarzenie> Importer::wczytaj(string Wczytaj)
 {
     ifstream plik;
 
-    plik.open(wczytaj_nazwe());
+    plik.open(Wczytaj);
 
     string linia;
     string tytul;
