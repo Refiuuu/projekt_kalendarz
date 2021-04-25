@@ -21,6 +21,8 @@ public:
     string lokalizacja;
     string sequence;
     string created;
+    string rule;
+    string zasada;
 
     // TODO: potrzebne?
     Powtarzanie powtarzanie;
@@ -29,6 +31,7 @@ public:
         return "Wydarzenie POCZATEK (" 
                       "data_start: " +  data_start + "\n"
                    +    "data_end: " +    data_end + "\n"
+                   +     "rrule"     +    zasada   + "\n"
                    +       "tytul: " +       tytul + "\n"
                    +     "notatka: " +     notatka + "\n"
                    + "lokalizacja: " + lokalizacja + "\n"

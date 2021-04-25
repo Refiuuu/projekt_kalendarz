@@ -16,7 +16,7 @@ enum IcsType {
     DESCRIPTION,
     LOCATION,
     SEQUENCE,
-    RULE,
+    RRULE,
     SUMMARY,
     PRODID,
     VERSION,

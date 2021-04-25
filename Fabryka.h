@@ -34,4 +34,6 @@ private:
     string dodaj_lokalizacje();
     string dodaj_tytul();
     string AktualnaData();
+    string Zasada();
+    string Jaki_dzien();
 };

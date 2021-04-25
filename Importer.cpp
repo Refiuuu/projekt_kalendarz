@@ -184,5 +184,8 @@ void Importer::ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie)
     case IcsType::SEQUENCE:
         wydarzenie.sequence = wez_dane(linia);
         break;
+    case IcsType::RRULE:
+        wydarzenie.data_end = wez_date_godzine(wez_dane(linia));
+        break;
     }
 }

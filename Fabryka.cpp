@@ -10,6 +10,7 @@ Wydarzenie Fabryka::StworzWydarzenie()
 
     w.data_start = Data_zapisu_od();
     w.data_end = Data_zapisu_do();
+    w.rule = Zasada();
     w.notatka = dodaj_notatke();
     w.tytul = dodaj_tytul();
     w.lokalizacja = dodaj_lokalizacje();
@@ -120,25 +121,29 @@ string Fabryka::dodaj_tytul()
     string nazwa;
     cout << "Podaj Tytul swojego wydarzenia:" << "\t";
     cin >> nazwa;
-    string  Nazwa = "SUMMARY:" + nazwa;
-    return string(Nazwa);
+
+    return nazwa;
 }
 
-string Fabryka::dodaj_notatke()
+string Fabryka::dodaj_notatke() // zrobic while bo o inaczej nie dziala
 {
     bool CzyTak = false;
-    string nazwa;
-    string wybor;
+    string nazwa = "";
+    char cos = 0;
+
     cout << "Czy chcesz dodac notatke do swjego wydarzenia ? [T/N}" << endl;
 
-    cin >> wybor;
-    if (wybor == "T" || wybor =="t")
+    cin >> cos;
+    if (cos == 'T')
     {
         cout << "Nizej wpisz swoja notatke:" << endl;
         cin >> nazwa;
+        return nazwa;
     }
-
-    return nazwa;
+    else
+    {
+        return "Brak Notatki";
+    }
 }
 
 string Fabryka::dodaj_lokalizacje()
@@ -447,4 +452,73 @@ string Fabryka::AktualnaData()
 
 
     return to_string(rok) + Miesiac + Dzien + "T" + Godzina + Minuta + Sekunda + "Z";
+}
+
+string Fabryka::Jaki_dzien()
+{
+    string dzien;
+    cout << "Wpisz nazwe dnia tygodnia ktory ma sie powtarzac (bez polskich znakow)  np [sroda]" << "\n";
+    cin >> dzien;
+
+    if (dzien == "poniedzialek")
+    {
+        return "BYDAY=MO";
+    }
+    if (dzien == "wtorek")
+    {
+        return "BYDAY=TU";
+    }
+    if (dzien == "sroda")
+    {
+        return "BYDAY=TH";
+    }
+    if (dzien == "czwartek")
+    {
+        return "BYDAY=WE";
+    }
+    if (dzien == "piatek")
+    {
+        return "BYDAY=FR";
+    }
+    if (dzien == "sobota")
+    {
+        return "BYDAY=SA";
+    }
+    if (dzien == "niedziela")
+    {
+        return "BYDAY=SU";
+    }
+
+
+}
+
+string Fabryka::Zasada() // zrobic while bo inaczej nie dziala
+{
+    char znak;
+    int cyfra;
+
+    cout << "Czy chcesz dodac powtarzanie wydarzenia?   " << "[T/N]";
+
+    cin >> znak;
+    if (znak == 'T') {
+        cout << "Wbierz sposob powtarzania sie wydarzenia" << endl;
+        cout << "1.Dziennie" << "\n" << "2.tygodniowo" << "\n" << "3.Miesiecznie" << endl;
+
+        cin >> cyfra;
+
+        string dzien = Jaki_dzien();
+
+        cout << endl;
+
+        if (cyfra == 1) {
+            return "DAILY;" + dzien;
+        }
+        if (cyfra == 2) {
+            return "WEEKLY;" + dzien;
+        }
+        if (cyfra == 3) {
+            return "MONTHLY;" + dzien;
+        }
+    }
+
 }
