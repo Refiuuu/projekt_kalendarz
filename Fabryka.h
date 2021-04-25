@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Wydarzenie.h"
+#include "Powtarzanie.h"
 #include <string>
 
 using namespace std;
@@ -34,6 +35,6 @@ private:
     string dodaj_lokalizacje();
     string dodaj_tytul();
     string AktualnaData();
-    string Zasada();
+    Powtarzanie Zasada();
     string Jaki_dzien();
 };

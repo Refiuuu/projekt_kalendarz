@@ -1,15 +1,8 @@
 #pragma once
+#include "Powtarzanie.h"
 #include <string>
 
 using namespace std;
-
-enum Powtarzanie {
-    Codzienne,
-    Tygodniowe,
-    Miesieczne,
-    Roczne
-};
-
 
 class Wydarzenie {
 public:
@@ -21,21 +14,17 @@ public:
     string lokalizacja;
     string sequence;
     string created;
-    string rule;
-    string zasada;
-
-    // TODO: potrzebne?
     Powtarzanie powtarzanie;
 
     string str() {
         return "Wydarzenie POCZATEK (" 
                       "data_start: " +  data_start + "\n"
                    +    "data_end: " +    data_end + "\n"
-                   +     "rrule"     +    zasada   + "\n"
                    +       "tytul: " +       tytul + "\n"
                    +     "notatka: " +     notatka + "\n"
                    + "lokalizacja: " + lokalizacja + "\n"
                    +    "sequence: " +    sequence + "\n"
+                   + "powtarzanie: " +    powtarzanie.stworzWpis() + "\n"
                    +     "created: " +     created + ")\n";
     }
 };

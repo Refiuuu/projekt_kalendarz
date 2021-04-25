@@ -1,4 +1,5 @@
 #include "Fabryka.h"
+#include "Powtarzanie.h"
 #include <iostream>
 #include <ctime>
 
@@ -10,7 +11,7 @@ Wydarzenie Fabryka::StworzWydarzenie()
 
     w.data_start = Data_zapisu_od();
     w.data_end = Data_zapisu_do();
-    w.rule = Zasada();
+    w.powtarzanie = Zasada();
     w.notatka = dodaj_notatke();
     w.tytul = dodaj_tytul();
     w.lokalizacja = dodaj_lokalizacje();
@@ -118,27 +119,34 @@ void Kalendarz::wyswietl()
 
 string Fabryka::dodaj_tytul()
 {
-    string nazwa;
+    char* nazwa = new char[256];
     cout << "Podaj Tytul swojego wydarzenia:" << "\t";
-    cin >> nazwa;
+    cin.getline(nazwa, 256);
 
-    return nazwa;
+    return string(nazwa);
 }
 
+/*
+ * class OptionalnyString {
+ * bool czyJest;
+ * string wartosc;
+ * }
+ *
+ */
 string Fabryka::dodaj_notatke() // zrobic while bo o inaczej nie dziala
 {
     bool CzyTak = false;
-    string nazwa = "";
-    char cos = 0;
+    char* nazwa = new char[256];
+    char cos;
 
-    cout << "Czy chcesz dodac notatke do swjego wydarzenia ? [T/N}" << endl;
+    cout << "Czy chcesz dodac notatke do swjego wydarzenia ? [T/N]" << endl;
 
     cin >> cos;
     if (cos == 'T')
     {
         cout << "Nizej wpisz swoja notatke:" << endl;
-        cin >> nazwa;
-        return nazwa;
+        cin.getline(nazwa, 256);
+        return string(nazwa);
     }
     else
     {
@@ -489,36 +497,38 @@ string Fabryka::Jaki_dzien()
         return "BYDAY=SU";
     }
 
-
+    return "error";
 }
 
-string Fabryka::Zasada() // zrobic while bo inaczej nie dziala
+Powtarzanie Fabryka::Zasada() // zrobic while bo inaczej nie dziala
 {
+    Powtarzanie powtarzanie;
     char znak;
-    int cyfra;
+    int cyfra = -1;
 
     cout << "Czy chcesz dodac powtarzanie wydarzenia?   " << "[T/N]";
 
     cin >> znak;
     if (znak == 'T') {
+        powtarzanie.powtarzaj = true;
         cout << "Wbierz sposob powtarzania sie wydarzenia" << endl;
         cout << "1.Dziennie" << "\n" << "2.tygodniowo" << "\n" << "3.Miesiecznie" << endl;
 
-        cin >> cyfra;
-
-        string dzien = Jaki_dzien();
-
-        cout << endl;
-
-        if (cyfra == 1) {
-            return "DAILY;" + dzien;
+        while (cyfra < 1 || cyfra > 3) {
+          cin >> cyfra;
         }
-        if (cyfra == 2) {
-            return "WEEKLY;" + dzien;
-        }
-        if (cyfra == 3) {
-            return "MONTHLY;" + dzien;
-        }
+        powtarzanie.powtarzaj = cyfra;
+
+        do {
+          if (powtarzanie.ktoryDzien == "error") {
+            cout << "Nie ma takiego dnia\n";
+          }
+          powtarzanie.ktoryDzien = Jaki_dzien();
+        } while (powtarzanie.ktoryDzien == "error");
     }
-
+    else if (znak == 'F') {
+      powtarzanie.powtarzaj = false;
+    }
+    return powtarzanie;
 }
+

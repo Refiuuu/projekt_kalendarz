@@ -30,9 +30,13 @@ void Export::zapisz_wydarzenie(Wydarzenie &wydarzenie, ofstream &plik)
 {
     plik << "BEGIN:VEVENT" << endl
         << "DTSTART:" << wydarzenie.data_start << endl
-        << "DTEND:" << wydarzenie.data_end << endl
-        << "RRULE:FREQ=" << wydarzenie.rule << endl
-        << "DTSTAMP:20210318T170142Z" << endl
+        << "DTEND:" << wydarzenie.data_end << endl;
+
+    if (wydarzenie.powtarzanie.powtarzaj) {
+      plik << "RRULE:FREQ=" << wydarzenie.powtarzanie.stworzWpis() << endl;
+    }
+
+    plik << "DTSTAMP:20210318T170142Z" << endl
         << "UID:110l8lpmu394madloslhqi91r0@google.com" << endl
         << "CREATED:" << wydarzenie.created << endl
         << "SUMMARY:" << wydarzenie.notatka << endl
