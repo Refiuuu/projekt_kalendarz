@@ -517,7 +517,7 @@ Powtarzanie Fabryka::Zasada() // zrobic while bo inaczej nie dziala
         while (cyfra < 1 || cyfra > 3) {
           cin >> cyfra;
         }
-        powtarzanie.powtarzaj = cyfra;
+        powtarzanie.typ = static_cast<TypPowtarzania>(cyfra);
 
         do {
           if (powtarzanie.ktoryDzien == "error") {
