@@ -4,29 +4,51 @@
 
 using namespace std;
 
+class DataZGodzina {
+public:
+  int rok;
+  int miesiac;
+  int dzien;
+  int godzina;
+  int minuta;
+  int sekunda;
+
+  string popraw(int &liczba) {
+    if (liczba >= 0 && liczba < 10) {
+      return "0" + to_string(liczba);
+    }
+    return to_string(liczba);
+  }
+
+  string str() {
+    return popraw(rok) + "-" + popraw(miesiac) + "-" + popraw(dzien) + " " + popraw(godzina) + ":" + popraw(minuta) + ":" + popraw(sekunda);
+  };
+
+  string do_zapisu() {
+    return popraw(rok) + popraw(miesiac) + popraw(dzien) + "T" + popraw(godzina) + popraw(minuta) + popraw(sekunda);
+  }
+};
+
 class Wydarzenie {
 public:
 
-    string data_start;
-    string data_end;
+    DataZGodzina data_start;
+    DataZGodzina data_end;
     string tytul;
     string notatka;
     string lokalizacja;
     string sequence;
-    string created;
+    DataZGodzina created;
     Powtarzanie powtarzanie;
 
     string str() {
-        return "Wydarzenie POCZATEK (" 
-                      "data_start: " +  data_start + "\n"
-                   +    "data_end: " +    data_end + "\n"
-                   +       "tytul: " +       tytul + "\n"
-                   +     "notatka: " +     notatka + "\n"
-                   + "lokalizacja: " + lokalizacja + "\n"
-                   +    "sequence: " +    sequence + "\n"
-                   + "powtarzanie: " +    powtarzanie.stworzWpis() + "\n"
-                   +     "created: " +     created + ")\n";
+        return "Wydarzenie POCZATEK (\n" 
+                      "data_start: " +  data_start.str() + "\n"
+                   +    "data_end: " +    data_end.str() + "\n"
+                   +       "tytul: " +             tytul + "\n"
+                   +     "notatka: " +           notatka + "\n"
+                   + "lokalizacja: " +       lokalizacja + "\n"
+                   +     "created: " +     created.str() + ")\n";
     }
 };
-
 

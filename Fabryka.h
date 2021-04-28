@@ -12,10 +12,10 @@ public:
 
     Wydarzenie StworzWydarzenie();
     
-    string dodaj_data();
-    string dodaj_godzine();
-    string Data_zapisu_od();
-    string Data_zapisu_do();
+    DataZGodzina dodaj_data();
+    DataZGodzina dodaj_godzine();
+    DataZGodzina Data_zapisu_od();
+    DataZGodzina Data_zapisu_do();
 private:
 
     int rok;
@@ -34,7 +34,11 @@ private:
     string dodaj_notatke();
     string dodaj_lokalizacje();
     string dodaj_tytul();
-    string AktualnaData();
+    DataZGodzina AktualnaData();
     Powtarzanie Zasada();
     string Jaki_dzien();
+
+    string pobierzString(const char* wiadomosc);
+    char pobierzZnak(const char* wiadomosc);
+    int pobierzLiczbe(const char* wiadomosc);
 };

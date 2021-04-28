@@ -134,7 +134,7 @@ string wez_dane(string linia) { // TODO powinno nalezec do klasy i byc prwatne
     return linia.substr(linia.find(':') + 1);
 }
 
-string wez_date_godzine(string date) { // TODO powinno nalezec do klasy i byc prywaten
+DataZGodzina wez_date_godzine(string date) { // TODO powinno nalezec do klasy i byc prywaten
 
     string rok;
     string miesiac;
@@ -142,7 +142,6 @@ string wez_date_godzine(string date) { // TODO powinno nalezec do klasy i byc pr
     string godzina;
     string minuta;
     string sekunda;
-        
 
     rok = date.substr(0, 4);
     miesiac = date.substr(4,2);
@@ -151,13 +150,15 @@ string wez_date_godzine(string date) { // TODO powinno nalezec do klasy i byc pr
     minuta = date.substr(11, 2);
     sekunda = date.substr(13, 2);
 
-    std::tm tm;
-    tm.tm_year = atoi(rok.c_str());
-    tm.tm_mon = atoi(miesiac.c_str());
+    DataZGodzina dataIgodzina;
+    dataIgodzina.rok     = atoi(rok.c_str());
+    dataIgodzina.miesiac = atoi(miesiac.c_str());
+    dataIgodzina.dzien   = atoi(dzien.c_str());
+    dataIgodzina.godzina = atoi(godzina.c_str());
+    dataIgodzina.minuta  = atoi(minuta.c_str());
+    dataIgodzina.sekunda = atoi(sekunda.c_str());
 
-    return string(rok + "-" + miesiac + "-" + dzien + "  " + godzina + ":" + minuta + ":" + sekunda);
-   
-
+    return dataIgodzina;
 }
 
 void Importer::ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie)
@@ -183,9 +184,6 @@ void Importer::ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie)
         break;
     case IcsType::SEQUENCE:
         wydarzenie.sequence = wez_dane(linia);
-        break;
-    case IcsType::RRULE:
-        wydarzenie.data_end = wez_date_godzine(wez_dane(linia));
         break;
     }
 }
