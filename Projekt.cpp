@@ -15,10 +15,10 @@ void pokazListe(vector<Wydarzenie> &lista) {
   }
 }
 
-int pobierzNumer(int max) {
+int pobierzNumer(const char* wiadomosc, int max) {
     int element;
     do {
-      cout << "Ktory element chcesz usunac?\n";
+      cout << wiadomosc;
       cin >> element;
     } while (element <= 0 && element > max);
     return element;
@@ -63,13 +63,17 @@ int main()
         {
           auto lista = zarzadca.Podajliste();
           pokazListe(lista);
-          auto element = pobierzNumer(lista.size());
+          auto element = pobierzNumer("Ktory element chcesz usunac?\n", lista.size());
           zarzadca.UsunWydarzenia(element);
         }
 
         else if (wpisz == "4")
         {
-
+          auto lista = zarzadca.Podajliste();
+          int element = pobierzNumer("Ktory element chcesz modyfikowac?\n", lista.size());
+          auto oryginalneWydarzenie = lista.at(element);
+          auto noweWydarzenie = fabryka.modyfikuj_wydarzenie(oryginalneWydarzenie); // modyfikuj_wydarzenie
+          zarzadca.Modyfikuj(noweWydarzenie, element);
         }
 
         else if (wpisz == "5") {

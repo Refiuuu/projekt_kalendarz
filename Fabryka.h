@@ -11,6 +11,7 @@ class Fabryka
 public:
 
     Wydarzenie StworzWydarzenie();
+    Wydarzenie modyfikuj_wydarzenie(const Wydarzenie &oryginalneWydarzenie);
     
     DataZGodzina dodaj_data();
     DataZGodzina dodaj_godzine();

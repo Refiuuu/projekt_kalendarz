@@ -20,6 +20,15 @@ Wydarzenie Fabryka::StworzWydarzenie()
     return w;
 }
 
+// Wydarzenie Fabryka::modyfikuj_wydarzenie(const Wydarzenie& oryginalneWydarzenie) {
+//   Wydarzenie nowe;
+//   nowe.data_start = oryginalneWydarzenie.data_start;
+//
+//   a co ja mam zrobic ?
+//   nowe.data_start = Data_zapisu_do();
+//   return 
+// }
+
 bool Fabryka::czy_przestepny(int rok)
 {
     if ((rok % 4 == 0 && rok % 100 != 0) || rok % 400 == 0) return true;
