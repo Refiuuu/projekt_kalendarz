@@ -1,2 +1,2 @@
-clang++ -std=c++17 -stdlib=libc++ -g *.cpp -o projekt
+llvm-g++ -std=c++17 *.cpp -o projekt
 ./projekt < scenariusz.txt
