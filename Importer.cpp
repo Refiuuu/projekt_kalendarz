@@ -17,18 +17,7 @@
     return nazwaPliku;
 }
 
-//TODO: vector<Wydarzenie> Importer::wczytaj(string nazwaPliku) - tak będzie lepiej
-// a wczytaj_nazwe wywołaj przed wczytywaniem danych w pliku Projekt.cpp i przekaz nazwe do wczytaj()
-// np.
-// auto nazwa_pliku = importer.wczytaj_nazwe();
-// auto dane = importer.wczytaj(nazwa_pliku);
-//
-// albo do testów bedzie ci latwiej
-//
-// auto nazwa_pliku = string("kalendarz.ics");
-// auto dane = importer.wczytaj(nazwa_pliku);
-//
-// w ten sposob nie bedziesz musial za kazdym razem podawac nazwy pliku!
+
 
  vector<Wydarzenie> Importer::wczytaj(string Wczytaj)
 {
@@ -130,11 +119,11 @@ IcsType Importer::wykryj_typ(string linia)
       
 }
  
-string wez_dane(string linia) { // TODO powinno nalezec do klasy i byc prwatne
+string wez_dane(string linia) {
     return linia.substr(linia.find(':') + 1);
 }
 
-DataZGodzina wez_date_godzine(string date) { // TODO powinno nalezec do klasy i byc prywaten
+DataZGodzina wez_date_godzine(string date) { 
 
     string rok;
     string miesiac;

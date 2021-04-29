@@ -18,6 +18,10 @@ public:
 
 	vector<Wydarzenie> Podajliste();
 
+	void Usun(vector<Wydarzenie>& lista);
+
+
+
 private:
 	vector<Wydarzenie> lista;
 

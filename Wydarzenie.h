@@ -25,7 +25,7 @@ public:
   };
 
   string do_zapisu() {
-    return popraw(rok) + popraw(miesiac) + popraw(dzien) + "T" + popraw(godzina) + popraw(minuta) + popraw(sekunda);
+    return popraw(rok) + popraw(miesiac) + popraw(dzien) + "T" + popraw(godzina) + popraw(minuta) + popraw(sekunda) + "Z";
   }
 };
 
@@ -42,13 +42,15 @@ public:
     Powtarzanie powtarzanie;
 
     string str() {
+   
         return "Wydarzenie POCZATEK (\n" 
                       "data_start: " +  data_start.str() + "\n"
                    +    "data_end: " +    data_end.str() + "\n"
                    +       "tytul: " +             tytul + "\n"
                    +     "notatka: " +           notatka + "\n"
-                   + "lokalizacja: " +       lokalizacja + "\n"
+                   + "lokalizacja: " +     lokalizacja + "\n"
                    +     "created: " +     created.str() + ")\n";
     }
+
 };
 

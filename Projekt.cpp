@@ -15,6 +15,7 @@ void pokazListe(vector<Wydarzenie> &lista) {
   }
 }
 
+
 int pobierzNumer(const char* wiadomosc, int max) {
     int element;
     do {
@@ -24,42 +25,63 @@ int pobierzNumer(const char* wiadomosc, int max) {
     return element;
 }
 
-int main() 
+int main()
 {
     Importer importer;
     Zarzadca zarzadca;
     Export exporter;
     Fabryka fabryka;
-    
-    string wpisz;
 
-    cout << "WITAJ W WERSJI ALFA :)\t";
+    string wpisz;
+    string wpiszz;
+
+plik:
+
+    
+
+    cout << "Czy chcesz otworzyc istniejacy juz plik ? [T/N]" << "\t";
+
+    cin >> wpiszz;
+    while ((wpiszz != "T") && (wpiszz != "N"))
+    {
+        cout << "Prosze wybrac opcje [T/N]: \t";
+        cin >> wpiszz;
+    }
+
+    if (wpiszz == "T")
+    {
+        auto nazwaPliku = importer.wczytaj_nazwe();
+        auto wydarzenia = importer.wczytaj(nazwaPliku);
+        zarzadca.DodajWydarzenia(wydarzenia);
+       
+    }
+    else
+    {
+
+    }
+    
+start:
+
     while (wpisz != "quit")
     {
-        cout << endl
-           << "1.Wczytaj eventy\n"
-           << "2.Dodaj Event\n"
-           << "3.Usun Event\n"
-           << "4.Modyfikuj\n"
-           << "5.Export\n"
+        cout << endl 
+           << "1.Dodaj Event\n"
+           << "2.Usun Event\n"
+           << "3.Modyfikuj\n"
+           << "4.Export\n"
            << "P.Pokaz\n"
+           << "N.Otworz nowy plik\n"
            << "quit zamyka aplikacje\n";
+
         cin >> wpisz;
 
         if (wpisz == "1")
-        {
-            auto nazwaPliku = importer.wczytaj_nazwe();
-            auto wydarzenia = importer.wczytaj(nazwaPliku);
-            zarzadca.DodajWydarzenia(wydarzenia);
-        }
-
-        else if (wpisz == "2")
         {   
             auto wydarzenie = fabryka.StworzWydarzenie();
             zarzadca.DodajWydarzenie(wydarzenie);
         }
 
-        else if (wpisz == "3")
+        else if (wpisz == "2")
         {
           auto lista = zarzadca.Podajliste();
           pokazListe(lista);
@@ -67,16 +89,33 @@ int main()
           zarzadca.UsunWydarzenia(element);
         }
 
-        else if (wpisz == "4")
+        else if (wpisz == "3")
         {
           auto lista = zarzadca.Podajliste();
+          pokazListe(lista);
+        
+
+            if (lista.size() == 0)
+            {   
+                cout << "Nie ma w tym pliku jeszcze zadnego elementu !!!" << endl;    
+                goto start;
+            }
+
           int element = pobierzNumer("Ktory element chcesz modyfikowac?\n", lista.size());
-          auto oryginalneWydarzenie = lista.at(element);
-          auto noweWydarzenie = fabryka.modyfikuj_wydarzenie(oryginalneWydarzenie); // modyfikuj_wydarzenie
-          zarzadca.Modyfikuj(noweWydarzenie, element);
+
+          while (!(element > 0 && element <= lista.size()))
+          {
+              element = pobierzNumer("Ktory element chcesz modyfikowac?\n", lista.size());
+          }
+
+              auto oryginalneWydarzenie = lista.at(element - 1);
+              auto noweWydarzenie = fabryka.modyfikuj_wydarzenie(oryginalneWydarzenie);
+              zarzadca.Modyfikuj(noweWydarzenie, element);
+          
+          
         }
 
-        else if (wpisz == "5") {
+        else if (wpisz == "4") {
           auto lista = zarzadca.Podajliste();
           auto nazwa_do_exportu = importer.wczytaj_nazwe();
           exporter.export_do_pliku(nazwa_do_exportu, lista);
@@ -86,6 +125,38 @@ int main()
         else if (wpisz == "P") {
           auto lista = zarzadca.Podajliste();
           pokazListe(lista);
+        }
+
+        else if (wpisz == "quit") {
+            cout << endl;
+            cout << "Zamykanie programu :)!";
+        }
+
+        else if (wpisz == "N") {
+            string wybor;
+            cout << endl;
+            cout << "Tworzenie nowego pliku !!" << endl;
+            cout << "Wszystkie niezapisane zmiany zostana utracone, czy na pewno ?[T/N]\n";
+
+            cin >> wybor;
+            while ((wybor != "T") && (wybor != "N"))
+            {
+                cout << "Prosze wybrac opcje [T/N]: \t";
+                cin >> wybor;
+            }
+
+            if (wybor == "T")
+            {
+                auto lista = zarzadca.Podajliste();
+                zarzadca.Usun(lista);
+                cout << endl;
+
+                goto plik;
+            }
+            else
+            {
+                goto start;
+            }
         }
 
         else {

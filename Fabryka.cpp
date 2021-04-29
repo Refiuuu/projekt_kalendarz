@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
+#include <limits>
 
 #pragma warning(disable : 4996)
 
@@ -20,14 +21,51 @@ Wydarzenie Fabryka::StworzWydarzenie()
     return w;
 }
 
-// Wydarzenie Fabryka::modyfikuj_wydarzenie(const Wydarzenie& oryginalneWydarzenie) {
-//   Wydarzenie nowe;
-//   nowe.data_start = oryginalneWydarzenie.data_start;
-//
-//   a co ja mam zrobic ?
-//   nowe.data_start = Data_zapisu_do();
-//   return 
-// }
+Wydarzenie Fabryka::modyfikuj_wydarzenie(const Wydarzenie& oryginalneWydarzenie) {
+   int wpisz;
+   Wydarzenie nowe;
+   nowe.data_start = oryginalneWydarzenie.data_start;
+   nowe.data_end = oryginalneWydarzenie.data_end;
+   nowe.tytul = oryginalneWydarzenie.tytul;
+   nowe.notatka = oryginalneWydarzenie.notatka;
+   nowe.lokalizacja = oryginalneWydarzenie.lokalizacja;
+   nowe.created = oryginalneWydarzenie.created;
+   cout << "Co chcesz Modyfikowaæ ?" << endl;
+   cout << "1.Data rozpoczecia." << endl;
+   cout << "2.Data zakonczenia." << endl;
+   cout << "3.Tytul wydarzenia." << endl;
+   cout << "4.Notatka." << endl;
+   cout << "5.Lokalizacja." << endl;
+
+  
+  cout << ("Podaj numer akcji ktora chcesz modyfikowac:\t");
+  cin >> wpisz;
+  cin.ignore();
+   
+   if (wpisz == 1)
+   {
+       nowe.data_start = Data_zapisu_od();
+   }
+   else if (wpisz == 2)
+   {
+       nowe.data_end = Data_zapisu_do();
+   }
+   else if (wpisz == 3)
+   {
+       nowe.tytul = dodaj_tytul();
+   }
+   else if (wpisz == 4)
+   {
+       nowe.notatka = dodaj_notatke();
+   }
+   else if (wpisz == 5)
+   {
+       nowe.lokalizacja = dodaj_lokalizacje();
+   }
+   
+
+   return nowe;
+ }
 
 bool Fabryka::czy_przestepny(int rok)
 {
@@ -159,17 +197,16 @@ int Fabryka::pobierzLiczbe(const char* wiadomosc) {
     return atoi(nazwa);
 }
 
-/*
- * class OptionalnyString {
- * bool czyJest;
- * string wartosc;
- * }
- *
- */
-string Fabryka::dodaj_notatke() // zrobic while bo o inaczej nie dziala
+string Fabryka::dodaj_notatke() 
 {
     bool CzyTak = false;
-    char cos = pobierzZnak("Czy chcesz dodac notatke do swjego wydarzenia? [T/N]");
+    char cos = pobierzZnak("Czy chcesz dodac notatke do swojego wydarzenia? [T/N]");
+
+    while ((cos != 'T') && (cos != 'N'))
+    {
+        cout << "Prosze wybrac opcje [T/N]: \t";
+        cin >> cos;
+    }
 
     if (cos == 'T')
     {
@@ -183,14 +220,45 @@ string Fabryka::dodaj_notatke() // zrobic while bo o inaczej nie dziala
 
 string Fabryka::dodaj_lokalizacje()
 {
-    auto miasto = pobierzString("Podaj lokalizacje swojego wydarzenia:\nMiasto: ");
-    auto kraj = pobierzString("Kraj: ");
-    return miasto + "/, " + kraj;
+    char cos;
+    Wydarzenie lokalizacja;
+
+    cout << "Czy chcesz dodaæ lokalizacje do swojego wydarzenia? [T/N] \t ";
+    cin >> cos;
+
+    while ((cos != 'T') && (cos != 'N'))
+    {
+        cout << "Czy chcesz dodaæ lokalizacje do swojego wydarzenia ? [T / N] \t";
+        cin >> cos;
+    }
+
+    cin.ignore();
+    cout << endl;
+    while ((cos != 'T') && (cos != 'N'))
+    {
+        cout << "Prosze wybrac opcje [T/N]: \t";
+        cin >> cos;
+    }
+
+    if (cos == 'T')
+    {
+        auto miasto = pobierzString("Podaj lokalizacje swojego wydarzenia:\nMiasto: ");
+        auto kraj = pobierzString("Kraj: ");
+
+
+        return miasto + "/, " + kraj;
+    }
+    else
+    {
+        return "Brak lokalizacji";
+    }
+    
 }
 
 DataZGodzina Fabryka::dodaj_data()
 {
     cin >> rok;
+
     while (rok < 1)
     {
         cout << "Podaj rok z naszej ery" << "\n";
@@ -352,12 +420,12 @@ DataZGodzina Fabryka::dodaj_godzine()
     int sekunda;
 
     cin >> godzina;
-    while (godzina >= 24)
+    
+    while (godzina >=24)
     {
         cout << "Nie ma takiej godziny " << "\n";
         cin >> godzina;
     }
-    cout << endl;
 
     cin >> minuta;
     while (minuta >= 60)
@@ -365,7 +433,6 @@ DataZGodzina Fabryka::dodaj_godzine()
         cout << "Nie ma tylu minut " << "\n";
         cin >> minuta;
     }
-    cout << endl;
 
     cin >> sekunda;
     while (sekunda >= 60)
@@ -390,7 +457,7 @@ DataZGodzina Fabryka::Data_zapisu_od()
 
     auto data = Fabryka::dodaj_data();
     cout << endl;
-    cout << "Podaj od ktorej ma byc to wydarzenie w formacie [23 34 54]: " << "\n";
+    cout << "Podaj od ktorej ma byc to wydarzenie w formacie [13 30 00]: " << "\n";
     cout << "Po wpisanej godzinie wcisnij ENTER etc..." << "\n";
     auto godzina = Fabryka::dodaj_godzine();
 
@@ -408,7 +475,7 @@ DataZGodzina Fabryka::Data_zapisu_od()
 DataZGodzina Fabryka::Data_zapisu_do()
 {
     cout << "Podaj do kiedy chcialbys dodac wydarzenie?" << "\n";
-    cout << "Zapisz ja w formacie [2021 11 1]" << "\n";
+    cout << "Zapisz ja w formacie [2021 05 17]" << "\n";
     cout << "Po wpisanym roku wcisniej ENTER etc..." << "\n";
     auto data = Fabryka::dodaj_data();
 
@@ -487,7 +554,7 @@ string Fabryka::Jaki_dzien()
     return "error";
 }
 
-Powtarzanie Fabryka::Zasada() // zrobic while bo inaczej nie dziala
+Powtarzanie Fabryka::Zasada()
 {
     Powtarzanie powtarzanie;
     int cyfra = -1;

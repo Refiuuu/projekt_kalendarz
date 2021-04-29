@@ -10,7 +10,7 @@ enum TypPowtarzania {
 
 class Powtarzanie {
 public:
-  bool powtarzaj;
+  bool powtarzaj = false;
   TypPowtarzania typ;
   string ktoryDzien;
 

@@ -33,3 +33,8 @@ vector<Wydarzenie> Zarzadca::Podajliste()
 {
 	return lista;
 }
+
+void Zarzadca::Usun(vector<Wydarzenie>& wydarzenie)
+{
+    lista.clear();
+}
