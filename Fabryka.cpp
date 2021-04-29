@@ -1,9 +1,9 @@
 #include "Fabryka.h"
 #include "Powtarzanie.h"
+#include "Sterowanie.h"
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
-#include <limits>
 
 #pragma warning(disable : 4996)
 
@@ -21,51 +21,58 @@ Wydarzenie Fabryka::StworzWydarzenie()
     return w;
 }
 
-Wydarzenie Fabryka::modyfikuj_wydarzenie(const Wydarzenie& oryginalneWydarzenie) {
-   int wpisz;
-   Wydarzenie nowe;
-   nowe.data_start = oryginalneWydarzenie.data_start;
-   nowe.data_end = oryginalneWydarzenie.data_end;
-   nowe.tytul = oryginalneWydarzenie.tytul;
-   nowe.notatka = oryginalneWydarzenie.notatka;
-   nowe.lokalizacja = oryginalneWydarzenie.lokalizacja;
-   nowe.created = oryginalneWydarzenie.created;
-   cout << "Co chcesz Modyfikowaæ ?" << endl;
-   cout << "1.Data rozpoczecia." << endl;
-   cout << "2.Data zakonczenia." << endl;
-   cout << "3.Tytul wydarzenia." << endl;
-   cout << "4.Notatka." << endl;
-   cout << "5.Lokalizacja." << endl;
+Wydarzenie Fabryka::modyfikuj_wydarzenie(const Wydarzenie &oryginalneWydarzenie) {
+    Wydarzenie nowe;
+    nowe.data_start = oryginalneWydarzenie.data_start;
+    nowe.data_end = oryginalneWydarzenie.data_end;
+    nowe.tytul = oryginalneWydarzenie.tytul;
+    nowe.notatka = oryginalneWydarzenie.notatka;
+    nowe.lokalizacja = oryginalneWydarzenie.lokalizacja;
+    nowe.created = oryginalneWydarzenie.created;
 
-  
-  cout << ("Podaj numer akcji ktora chcesz modyfikowac:\t");
-  cin >> wpisz;
-  cin.ignore();
-   
-   if (wpisz == 1)
-   {
-       nowe.data_start = Data_zapisu_od();
-   }
-   else if (wpisz == 2)
-   {
-       nowe.data_end = Data_zapisu_do();
-   }
-   else if (wpisz == 3)
-   {
-       nowe.tytul = dodaj_tytul();
-   }
-   else if (wpisz == 4)
-   {
-       nowe.notatka = dodaj_notatke();
-   }
-   else if (wpisz == 5)
-   {
-       nowe.lokalizacja = dodaj_lokalizacje();
-   }
-   
+    auto menu_modyfikacji =
+      "Co chcesz Modyfikowac ?\n" 
+      "1.Data rozpoczecia.\n"
+      "2.Data zakonczenia.\n"
+      "3.Tytul wydarzenia.\n"
+      "4.Notatka.\n"
+      "5.Lokalizacja.\n"
+      "6.Zakoncz edycje.\n"
+      "Podaj numer akcji:\t";
 
-   return nowe;
- }
+    while (true)
+    {
+        auto wpisz = pobierzLiczbe(menu_modyfikacji);
+        if (wpisz == 1)
+        {
+          nowe.data_start = Data_zapisu_od();
+        } 
+        else if (wpisz == 2)
+        {
+          nowe.data_end = Data_zapisu_do();
+        } 
+        else if (wpisz == 3)
+        {
+          nowe.tytul = dodaj_tytul();
+        } 
+        else if (wpisz == 4)
+        {
+          nowe.notatka = dodaj_notatke();
+        } 
+        else if (wpisz == 5)
+        {
+          nowe.lokalizacja = dodaj_lokalizacje();
+        }
+        else if (wpisz == 6)
+        {
+            break;
+        }
+        else {
+          cout << "Nie ma takiej opcji.\n\n";
+        }
+    }
+    return nowe;
+}
 
 bool Fabryka::czy_przestepny(int rok)
 {
@@ -170,45 +177,9 @@ string Fabryka::dodaj_tytul()
     return pobierzString("Podaj Tytul swojego wydarzenia: ");
 }
 
-string Fabryka::pobierzString(const char* wiadomosc) {
-    char* nazwa = new char[256];
-    cout << wiadomosc;
-
-    cin.getline(nazwa, 256);
-
-    return string(nazwa);    
-}
-
-char Fabryka::pobierzZnak(const char* wiadomosc) {
-    char* nazwa = new char[2];
-    cout << wiadomosc;
-
-    cin.getline(nazwa, 2);
-
-    return nazwa[0];
-}
-
-int Fabryka::pobierzLiczbe(const char* wiadomosc) {
-    char* nazwa = new char[256];
-    cout << wiadomosc;
-
-    cin.getline(nazwa, 256);
-
-    return atoi(nazwa);
-}
-
 string Fabryka::dodaj_notatke() 
 {
-    bool CzyTak = false;
-    char cos = pobierzZnak("Czy chcesz dodac notatke do swojego wydarzenia? [T/N]");
-
-    while ((cos != 'T') && (cos != 'N'))
-    {
-        cout << "Prosze wybrac opcje [T/N]: \t";
-        cin >> cos;
-    }
-
-    if (cos == 'T')
+    if (takCzyNie("Czy chcesz dodac notatke do swojego wydarzenia? [T/N]"))
     {
         return pobierzString("Nizej wpisz swoja notatke: ");
     }
@@ -220,32 +191,10 @@ string Fabryka::dodaj_notatke()
 
 string Fabryka::dodaj_lokalizacje()
 {
-    char cos;
-    Wydarzenie lokalizacja;
-
-    cout << "Czy chcesz dodaæ lokalizacje do swojego wydarzenia? [T/N] \t ";
-    cin >> cos;
-
-    while ((cos != 'T') && (cos != 'N'))
-    {
-        cout << "Czy chcesz dodaæ lokalizacje do swojego wydarzenia ? [T / N] \t";
-        cin >> cos;
-    }
-
-    cin.ignore();
-    cout << endl;
-    while ((cos != 'T') && (cos != 'N'))
-    {
-        cout << "Prosze wybrac opcje [T/N]: \t";
-        cin >> cos;
-    }
-
-    if (cos == 'T')
+    if (takCzyNie("Czy chcesz dodac lokalizacje do swojego wydarzenia? [T/N] \t "))
     {
         auto miasto = pobierzString("Podaj lokalizacje swojego wydarzenia:\nMiasto: ");
         auto kraj = pobierzString("Kraj: ");
-
-
         return miasto + "/, " + kraj;
     }
     else
@@ -559,8 +508,7 @@ Powtarzanie Fabryka::Zasada()
     Powtarzanie powtarzanie;
     int cyfra = -1;
 
-    auto znak = pobierzZnak("Czy chcesz dodac powtarzanie wydarzenia? [T/N]");
-    if (znak == 'T') {
+    if (takCzyNie("Czy chcesz dodac powtarzanie wydarzenia? [T/N]")) {
         powtarzanie.powtarzaj = true;
         cyfra = pobierzLiczbe("Wbierz sposob powtarzania sie wydarzenia\n1.Dziennie\n2.tygodniowo\n3.Miesiecznie\n");
 
@@ -576,9 +524,10 @@ Powtarzanie Fabryka::Zasada()
           powtarzanie.ktoryDzien = Jaki_dzien();
         } while (powtarzanie.ktoryDzien == "error");
     }
-    else if (znak == 'F') {
+    else {
       powtarzanie.powtarzaj = false;
     }
+
     return powtarzanie;
 }
 

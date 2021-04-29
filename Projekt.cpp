@@ -1,11 +1,12 @@
-﻿
-#include <iostream>
-#include <string>
+﻿#include "Export.h"
 #include "Fabryka.h"
 #include "Importer.h"
-#include "Export.h"
-#include "Zarzadca.h"
+#include "Sterowanie.h"
 #include "Wydarzenie.h"
+#include "Zarzadca.h"
+
+#include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -15,14 +16,13 @@ void pokazListe(vector<Wydarzenie> &lista) {
   }
 }
 
-
-int pobierzNumer(const char* wiadomosc, int max) {
-    int element;
-    do {
-      cout << wiadomosc;
-      cin >> element;
-    } while (element <= 0 && element > max);
-    return element;
+void wczytajOdNowa(Importer &importer, Zarzadca &zarzadca) {
+    if (takCzyNie("Czy chcesz otworzyc istniejacy juz plik? [T/N]"))
+    {
+        auto nazwaPliku = importer.wczytaj_nazwe();
+        auto wydarzenia = importer.wczytaj(nazwaPliku);
+        zarzadca.DodajWydarzenia(wydarzenia);
+    }
 }
 
 int main()
@@ -33,47 +33,21 @@ int main()
     Fabryka fabryka;
 
     string wpisz;
-    string wpiszz;
 
-plik:
-
-    
-
-    cout << "Czy chcesz otworzyc istniejacy juz plik ? [T/N]" << "\t";
-
-    cin >> wpiszz;
-    while ((wpiszz != "T") && (wpiszz != "N"))
-    {
-        cout << "Prosze wybrac opcje [T/N]: \t";
-        cin >> wpiszz;
-    }
-
-    if (wpiszz == "T")
-    {
-        auto nazwaPliku = importer.wczytaj_nazwe();
-        auto wydarzenia = importer.wczytaj(nazwaPliku);
-        zarzadca.DodajWydarzenia(wydarzenia);
-       
-    }
-    else
-    {
-
-    }
-    
-start:
+    wczytajOdNowa(importer, zarzadca);
 
     while (wpisz != "quit")
     {
-        cout << endl 
-           << "1.Dodaj Event\n"
-           << "2.Usun Event\n"
-           << "3.Modyfikuj\n"
-           << "4.Export\n"
-           << "P.Pokaz\n"
-           << "N.Otworz nowy plik\n"
-           << "quit zamyka aplikacje\n";
+        auto menu =
+          "\n1.Dodaj Event\n"
+          "2.Usun Event\n"
+          "3.Modyfikuj\n"
+          "4.Export\n"
+          "P.Pokaz\n"
+          "N.Otworz nowy plik\n"
+          "quit zamyka aplikacje\n";
 
-        cin >> wpisz;
+        wpisz = pobierzString(menu);
 
         if (wpisz == "1")
         {   
@@ -94,25 +68,20 @@ start:
           auto lista = zarzadca.Podajliste();
           pokazListe(lista);
         
-
-            if (lista.size() == 0)
-            {   
-                cout << "Nie ma w tym pliku jeszcze zadnego elementu !!!" << endl;    
-                goto start;
-            }
-
-          int element = pobierzNumer("Ktory element chcesz modyfikowac?\n", lista.size());
-
-          while (!(element > 0 && element <= lista.size()))
-          {
-              element = pobierzNumer("Ktory element chcesz modyfikowac?\n", lista.size());
+          if (lista.size() == 0)
+          {   
+              cout << "Nie ma w tym pliku jeszcze zadnego elementu !!!" << endl;    
+              continue;
           }
 
-              auto oryginalneWydarzenie = lista.at(element - 1);
-              auto noweWydarzenie = fabryka.modyfikuj_wydarzenie(oryginalneWydarzenie);
-              zarzadca.Modyfikuj(noweWydarzenie, element);
-          
-          
+          int element;
+          do {
+              element = pobierzNumer("Ktory element chcesz modyfikowac?\n", lista.size());
+          } while (!(element > 0 && element <= lista.size()));
+
+          auto oryginalneWydarzenie = lista.at(element - 1);
+          auto noweWydarzenie = fabryka.modyfikuj_wydarzenie(oryginalneWydarzenie);
+          zarzadca.Modyfikuj(noweWydarzenie, element);
         }
 
         else if (wpisz == "4") {
@@ -128,34 +97,19 @@ start:
         }
 
         else if (wpisz == "quit") {
-            cout << endl;
-            cout << "Zamykanie programu :)!";
+            cout << "\nZamykanie programu :)!";
         }
 
         else if (wpisz == "N") {
-            string wybor;
-            cout << endl;
-            cout << "Tworzenie nowego pliku !!" << endl;
-            cout << "Wszystkie niezapisane zmiany zostana utracone, czy na pewno ?[T/N]\n";
+            auto wiadomosc =
+              "Tworzenie nowego pliku !!\n" 
+              "Wszystkie niezapisane zmiany zostana utracone, czy na pewno? [T/N]\n\n";
 
-            cin >> wybor;
-            while ((wybor != "T") && (wybor != "N"))
-            {
-                cout << "Prosze wybrac opcje [T/N]: \t";
-                cin >> wybor;
-            }
-
-            if (wybor == "T")
+            if (takCzyNie(wiadomosc))
             {
                 auto lista = zarzadca.Podajliste();
                 zarzadca.Usun(lista);
-                cout << endl;
-
-                goto plik;
-            }
-            else
-            {
-                goto start;
+                wczytajOdNowa(importer, zarzadca);
             }
         }
 

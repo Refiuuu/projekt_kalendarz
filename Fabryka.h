@@ -39,7 +39,4 @@ private:
     Powtarzanie Zasada();
     string Jaki_dzien();
 
-    string pobierzString(const char* wiadomosc);
-    char pobierzZnak(const char* wiadomosc);
-    int pobierzLiczbe(const char* wiadomosc);
 };
