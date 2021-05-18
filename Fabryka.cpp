@@ -83,7 +83,7 @@ bool Fabryka::czy_przestepny(int rok)
 /*
 void Kalendarz::wyswietl()
 {
-    cout << "Podaj Rok do wyœwietlenia i numer miesiac [1 -- 12] " << endl;
+    cout << "Podaj Rok do wyswietlenia i numer miesiac [1 -- 12] " << endl;
     cin >> rok;
     cin >> miesiac;
     cout << endl << endl;
