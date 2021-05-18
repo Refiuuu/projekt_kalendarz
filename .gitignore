@@ -5,3 +5,8 @@ x64/*
 *.sln
 *.dSYM
 projekt
+
+# rafals project specific
+BearLibTerminal.h
+change_to_local.sh
+libBearLibTerminal.dylib
