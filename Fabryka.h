@@ -19,6 +19,7 @@ public:
     DataZGodzina dodaj_godzine();
     DataZGodzina Data_zapisu_od();
     DataZGodzina Data_zapisu_do();
+    bool Przypomnienie(); 
 
 private:
 
@@ -39,7 +40,6 @@ private:
     string dodaj_lokalizacje();
     string dodaj_tytul();
     DataZGodzina AktualnaData();
-   // DataZGodzina Przypomnienie();
     Powtarzanie Zasada();
     string Jaki_dzien();
 

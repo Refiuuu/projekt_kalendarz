@@ -28,6 +28,8 @@ void wczytajOdNowa(Importer &importer, Zarzadca &zarzadca) {
 
 int main()
 {
+   
+
     Importer importer;
     Zarzadca zarzadca;
     Export exporter;
@@ -48,6 +50,12 @@ int main()
           "P.Pokaz\n"
           "N.Otworz nowy plik\n"
           "quit zamyka aplikacje\n";
+
+        if (fabryka.Przypomnienie() == true)
+        {
+            cout << "Za 1 dzien odbedzie sie wydarzenie\t";
+        }
+
 
         wpisz = pobierzString(menu);
 
@@ -94,6 +102,25 @@ int main()
         }
 
         else if (wpisz == "P") {
+            
+          cout << "1.Wydarzenia w tym tygodniu\n" << "2.Wydarzenia w tym miesiacu\n"
+               << "3.Wszystkie wydarzenia przyszle\n";
+          auto  element = pobierzNumer("W jaki sposob chcesz wyswietlic wydarzenia ?:\t", 3);
+
+          if (element == 1)
+          {
+              
+          }
+
+          if (element == 2)
+          {
+
+          }
+          if (element == 3)
+          {
+              
+
+          }
           auto lista = zarzadca.Podajliste();
           pokazListe(lista);
         }

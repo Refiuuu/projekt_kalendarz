@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
+#include <string>
 
 #pragma warning(disable : 4996)
 
@@ -442,33 +443,27 @@ DataZGodzina Fabryka::Data_zapisu_do()
 
     return dataIgodzina;
 }
-/*
-DataZGodzina   Fabryka::Przypomnienie()
+
+bool Fabryka::Przypomnienie()
 {
-    DataZGodzina zapisane;
+    Wydarzenie w;
 
     int ro = AktualnaData().rok;
     int mies = AktualnaData().miesiac;
     int dzi = AktualnaData().dzien;
 
-    int dzien = zapisane.dzien;
-    int miesiac = zapisane.miesiac;
-    int rok = zapisane.rok;
-
-
-    if (ro == rok)
+    if (w.data_start.rok == ro)
     {
-        if (mies == miesiac)
+        if (w.data_start.miesiac == mies)
         {
-            if (dzi - 1 == dzien)
+            if (w.data_start.dzien = dzi - 1)
             {
-                return true;
+                return true ;
             }
         }
     }
 
 }
-*/
 
 
 DataZGodzina Fabryka::AktualnaData()
