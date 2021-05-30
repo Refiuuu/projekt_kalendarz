@@ -51,11 +51,22 @@ int main()
           "N.Otworz nowy plik\n"
           "quit zamyka aplikacje\n";
 
-        if (fabryka.Przypomnienie() == true)
-        {
-            cout << "Za 1 dzien odbedzie sie wydarzenie\t";
-        }
+        /* if (fabryka.Przypomnienie() == true) */
+        /* { */
+        /*     cout << "Za 1 dzien odbedzie sie wydarzenie\t"; */
+        /* } */
+        auto wczoraj = DataZGodzina::aktualnaPlusDni(-1);
+        wczoraj.godzina = 0;
+        wczoraj.minuta = 0;
+        wczoraj.sekunda = 0;
+        auto dzisiaj = DataZGodzina::aktualnaData();
+        dzisiaj.godzina = 23;
+        dzisiaj.minuta = 59;
+        dzisiaj.sekunda = 59;
 
+        auto do_przypomnienia = zarzadca.FiltrujOdDo(wczoraj, dzisiaj);
+        cout << "Najblizsze wydarzenia\n";
+        pokazListe(do_przypomnienia);
 
         wpisz = pobierzString(menu);
 
@@ -103,26 +114,23 @@ int main()
 
         else if (wpisz == "P") {
             
-          cout << "1.Wydarzenia w tym tygodniu\n" << "2.Wydarzenia w tym miesiacu\n"
-               << "3.Wszystkie wydarzenia przyszle\n";
-          auto  element = pobierzNumer("W jaki sposob chcesz wyswietlic wydarzenia ?:\t", 3);
+          cout << "1.Wydarzenia w tym tygodniu\n" 
+               << "2.Wydarzenia w tym miesiacu\n"
+               << "3.Wszystkie\n";
+          auto element = pobierzNumer("W jaki sposob chcesz wyswietlic wydarzenia ?:\t", 3);
 
-          if (element == 1)
-          {
-              
+          if (element == 1) {
+              auto lista = zarzadca.FiltrujOdDo(DataZGodzina::aktualnaData(), DataZGodzina::aktualnaPlusDni(7));
+              pokazListe(lista);
+          } else if (element == 2) {
+              auto koniec_miesiaca = DataZGodzina::aktualnaData();
+              koniec_miesiaca.dzien = 31;
+              auto lista = zarzadca.FiltrujOdDo(DataZGodzina::aktualnaData(), koniec_miesiaca);
+              pokazListe(lista);
+          } else if (element == 3) {
+            auto lista = zarzadca.Podajliste();
+            pokazListe(lista);
           }
-
-          if (element == 2)
-          {
-
-          }
-          if (element == 3)
-          {
-              
-
-          }
-          auto lista = zarzadca.Podajliste();
-          pokazListe(lista);
         }
 
         else if (wpisz == "quit") {

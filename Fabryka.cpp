@@ -3,10 +3,7 @@
 #include "Sterowanie.h"
 #include <cstdlib>
 #include <iostream>
-#include <ctime>
 #include <string>
-
-#pragma warning(disable : 4996)
 
 Wydarzenie Fabryka::StworzWydarzenie()
 {
@@ -18,7 +15,7 @@ Wydarzenie Fabryka::StworzWydarzenie()
     w.notatka = dodaj_notatke();
     w.tytul = dodaj_tytul();
     w.lokalizacja = dodaj_lokalizacje();
-    w.created = AktualnaData();
+    w.created = DataZGodzina::aktualnaData();
     return w;
 }
 
@@ -209,9 +206,10 @@ DataZGodzina Fabryka::dodaj_data()
 {
     cin >> rok;
 
-    while (rok < 1)
+    auto aktualnyRok = DataZGodzina::aktualnaData().rok;
+    while (rok < aktualnyRok)
     {
-        cout << "Podaj rok z naszej ery" << "\n";
+        cout << "Podaj rok\n";
         cin >> rok;
     }
 
@@ -440,52 +438,6 @@ DataZGodzina Fabryka::Data_zapisu_do()
     dataIgodzina.godzina = godzina.godzina;
     dataIgodzina.minuta  = godzina.minuta;
     dataIgodzina.sekunda = godzina.sekunda;
-
-    return dataIgodzina;
-}
-
-bool Fabryka::Przypomnienie()
-{
-    Wydarzenie w;
-
-    int ro = AktualnaData().rok;
-    int mies = AktualnaData().miesiac;
-    int dzi = AktualnaData().dzien;
-
-    if (w.data_start.rok == ro)
-    {
-        if (w.data_start.miesiac == mies)
-        {
-            if (w.data_start.dzien = dzi - 1)
-            {
-                return true ;
-            }
-        }
-    }
-
-}
-
-
-DataZGodzina Fabryka::AktualnaData()
-{
-    time_t czas_m;
-    time(&czas_m);
-    tm* czas = localtime(&czas_m);
-    rok = czas->tm_year + 1900;
-
-    miesiac = czas->tm_mon + 1;
-    dzien = czas->tm_mday;
-    godzina = czas->tm_hour;
-    minuta = czas->tm_min;
-    sekunda = czas->tm_sec;
-
-    DataZGodzina dataIgodzina;
-    dataIgodzina.rok     = rok;
-    dataIgodzina.miesiac = miesiac;
-    dataIgodzina.dzien   = dzien;
-    dataIgodzina.godzina = godzina;
-    dataIgodzina.minuta  = minuta;
-    dataIgodzina.sekunda = sekunda;
 
     return dataIgodzina;
 }

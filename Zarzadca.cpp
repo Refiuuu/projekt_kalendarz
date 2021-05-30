@@ -38,3 +38,25 @@ void Zarzadca::Usun(vector<Wydarzenie>& wydarzenie)
 {
     lista.clear();
 }
+
+bool Zarzadca::CzyWZakresie(Wydarzenie &w, DataZGodzina &od_data, DataZGodzina &do_data) {
+    auto teraz = DataZGodzina::aktualnaData();
+
+    auto data_wydarzenia = w.data_start.do_zapisu();
+    auto od_str = od_data.do_zapisu();
+    auto do_str = do_data.do_zapisu();
+
+    return data_wydarzenia >= od_str && data_wydarzenia <= do_str;
+}
+
+vector<Wydarzenie> Zarzadca::FiltrujOdDo(DataZGodzina od_data, DataZGodzina do_data) {
+  auto odfiltowane = vector<Wydarzenie>();
+  for (auto wydarzenie : lista) {
+    if (CzyWZakresie(wydarzenie, od_data, do_data)) {
+        odfiltowane.push_back(wydarzenie);
+    }
+  }
+  return odfiltowane;
+}
+
+

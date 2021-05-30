@@ -1,6 +1,10 @@
 #pragma once
 #include "Powtarzanie.h"
 #include <string>
+#include <ctime>
+#include <iostream>
+
+#pragma warning(disable : 4996)
 
 using namespace std;
 /// <summary>
@@ -21,7 +25,7 @@ public:
     }
     return to_string(liczba);
   }
-
+ 
   string str() {
     return popraw(rok) + "-" + popraw(miesiac) + "-" + popraw(dzien) + " " + popraw(godzina) + ":" + popraw(minuta) + ":" + popraw(sekunda);
   };
@@ -29,6 +33,41 @@ public:
   string do_zapisu() {
     return popraw(rok) + popraw(miesiac) + popraw(dzien) + "T" + popraw(godzina) + popraw(minuta) + popraw(sekunda) + "Z";
   }
+
+  static DataZGodzina aktualnaData() {
+    return aktualnaPlusDni(0);
+  }
+
+  static DataZGodzina aktualnaPlusDni(int dni) {
+      time_t czas_m = dodajDni(dni);
+      cout << czas_m << endl;
+      tm* czas = localtime(&czas_m);
+      DataZGodzina wynik;
+      auto rok = czas->tm_year + 1900;
+
+      auto miesiac = czas->tm_mon + 1;
+      auto dzien = czas->tm_mday;
+      auto godzina = czas->tm_hour;
+      auto minuta = czas->tm_min;
+      auto sekunda = czas->tm_sec;
+
+      DataZGodzina dataIgodzina;
+      dataIgodzina.rok     = rok;
+      dataIgodzina.miesiac = miesiac;
+      dataIgodzina.dzien   = dzien;
+      dataIgodzina.godzina = godzina;
+      dataIgodzina.minuta  = minuta;
+      dataIgodzina.sekunda = sekunda;
+
+      return dataIgodzina;
+  }
+
+private:
+  static time_t dodajDni(int days)
+  {
+      return time(0)+86400*days;
+  }
+
 };
 /// <summary>
 /// Wydarzenie odpowiada za przechowywanie danych wczytanych/stworzonych oraz wypisywanie ich w odpowiedniej kolejnosci.

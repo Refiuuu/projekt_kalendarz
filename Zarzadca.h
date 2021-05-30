@@ -30,6 +30,10 @@ public:
 	*/
 	vector<Wydarzenie> Podajliste();
 
+  /** \brief Filtruje wydarzenia należące do podanego zakresu dat
+   */
+  vector<Wydarzenie> FiltrujOdDo(DataZGodzina od_data, DataZGodzina do_data);
+
 	/** \brief Funkcja usuwa cala liste wydarzen
 	*/
 	void Usun(vector<Wydarzenie>& lista);
@@ -38,6 +42,8 @@ private:
 	/** \brief Funkcja ktora przechowuje liste wydarzen
 	*/
 	vector<Wydarzenie> lista;
+
+  bool CzyWZakresie(Wydarzenie &w, DataZGodzina &od_data, DataZGodzina &do_data);
 
 };
 
