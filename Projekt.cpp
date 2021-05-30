@@ -5,6 +5,8 @@
 #include "Wydarzenie.h"
 #include "Zarzadca.h"
 
+#include <windows.h>
+#include <cstdio>
 #include <iostream>
 #include <string>
 #include <BearLibTerminal.h>
@@ -18,12 +20,32 @@ void pokazListe(vector<Wydarzenie> &lista) {
 }
 
 void wczytajOdNowa(Importer &importer, Zarzadca &zarzadca) {
-    if (takCzyNie("Czy chcesz otworzyc istniejacy juz plik? [T/N]"))
+    if (takCzyNie("Czy chcesz otworzyc istniejacy juz plik? [T/N]:  "))
     {
         auto nazwaPliku = importer.wczytaj_nazwe();
         auto wydarzenia = importer.wczytaj(nazwaPliku);
         zarzadca.DodajWydarzenia(wydarzenia);
     }
+    system("cls");
+}
+
+string LadnaNazwa(DataZGodzina cos)
+{
+    string miesiac;
+    if (cos.miesiac == 1) miesiac = "Stycznia";
+    else if (cos.miesiac == 2) miesiac = "Lutego";
+    else if (cos.miesiac == 3) miesiac = "Marca";
+    else if (cos.miesiac == 4) miesiac = "Kwietnia";
+    else if (cos.miesiac == 5) miesiac = "Maja";
+    else if (cos.miesiac == 6) miesiac = "Czerwca";
+    else if (cos.miesiac == 7) miesiac = "Lipca";
+    else if (cos.miesiac == 8) miesiac = "Sierpnia";
+    else if (cos.miesiac == 9) miesiac = "Wrzesnia";
+    else if (cos.miesiac == 10) miesiac = "Pazdzeirnika";
+    else if (cos.miesiac == 11) miesiac = "Listopada";
+    else if (cos.miesiac == 12) miesiac = "Grudnia";
+
+    return miesiac;
 }
 
 int main()
@@ -37,41 +59,46 @@ int main()
 
     wczytajOdNowa(importer, zarzadca);
 
-    string wpisz;
+    string ladna = LadnaNazwa(DataZGodzina::aktualnaPlusDni(0));
 
+    string wpisz;
 
     while (wpisz != "quit")
     {
-        auto menu =
-          "\n1.Dodaj Event\n"
-          "2.Usun Event\n"
-          "3.Modyfikuj\n"
-          "4.Export\n"
-          "P.Pokaz\n"
-          "N.Otworz nowy plik\n"
-          "quit zamyka aplikacje\n";
+        
 
-        /* if (fabryka.Przypomnienie() == true) */
-        /* { */
-        /*     cout << "Za 1 dzien odbedzie sie wydarzenie\t"; */
-        /* } */
-        auto wczoraj = DataZGodzina::aktualnaPlusDni(-1);
-        wczoraj.godzina = 0;
-        wczoraj.minuta = 0;
-        wczoraj.sekunda = 0;
+   cout<< "\n**Projekt Zap Kalendarz**\n\n" <<
+          "Aktualna data:"<< DataZGodzina::aktualnaPlusDni(0).dzien <<"  "<< ladna <<"  "<<DataZGodzina::aktualnaPlusDni(0).rok <<"\n\n" <<
+          "\n1.Dodaj Event\n" <<
+          "2.Usun Event\n" <<
+          "3.Modyfikuj\n" <<
+          "4.Export\n" <<
+          "P.Pokaz\n" <<
+          "N.Otworz nowy plik\n" <<
+          "quit zamyka aplikacje\n\n";
+
+        
+
         auto dzisiaj = DataZGodzina::aktualnaData();
-        dzisiaj.godzina = 23;
-        dzisiaj.minuta = 59;
-        dzisiaj.sekunda = 59;
+        dzisiaj.godzina = 0;
+        dzisiaj.minuta = 0;
+        dzisiaj.sekunda = 0;
+        auto jutro = DataZGodzina::aktualnaPlusDni(1);
+        jutro.godzina = 23;
+        jutro.minuta = 59;
+        jutro.sekunda = 59;
 
-        auto do_przypomnienia = zarzadca.FiltrujOdDo(wczoraj, dzisiaj);
-        cout << "Najblizsze wydarzenia\n";
+        auto do_przypomnienia = zarzadca.FiltrujOdDo(dzisiaj, jutro);
+        cout << "        Najblizsze wydarzenia\n";
+        cout << "_____________________________________\n";
         pokazListe(do_przypomnienia);
+        cout << "_____________________________________\n";
 
-        wpisz = pobierzString(menu);
+        wpisz = pobierzString("Ktora opcje chcesz wybrac?: ");
 
         if (wpisz == "1")
-        {   
+        {
+            system("cls");
             auto wydarzenie = fabryka.StworzWydarzenie();
             zarzadca.DodajWydarzenie(wydarzenie);
         }
@@ -87,22 +114,23 @@ int main()
         else if (wpisz == "3")
         {
           auto lista = zarzadca.Podajliste();
-          pokazListe(lista);
-        
           if (lista.size() == 0)
           {   
-              cout << "Nie ma w tym pliku jeszcze zadnego elementu !!!" << endl;    
+              system("cls");
+              cout << "********Nie ma w tym pliku jeszcze zadnego elementu********" << endl;    
               continue;
           }
-
+          system("cls");
+          pokazListe(lista);
           int element;
           do {
-              element = pobierzNumer("Ktory element chcesz modyfikowac?\n", lista.size());
+             element = pobierzNumer("Ktory element chcesz modyfikowac?:  ", lista.size());
           } while (!(element > 0 && element <= lista.size()));
 
           auto oryginalneWydarzenie = lista.at(element - 1);
           auto noweWydarzenie = fabryka.modyfikuj_wydarzenie(oryginalneWydarzenie);
           zarzadca.Modyfikuj(noweWydarzenie, element);
+          
         }
 
         else if (wpisz == "4") {
@@ -113,7 +141,7 @@ int main()
         }
 
         else if (wpisz == "P") {
-            
+          system("cls");
           cout << "1.Wydarzenia w tym tygodniu\n" 
                << "2.Wydarzenia w tym miesiacu\n"
                << "3.Wszystkie\n";
@@ -122,14 +150,23 @@ int main()
           if (element == 1) {
               auto lista = zarzadca.FiltrujOdDo(DataZGodzina::aktualnaData(), DataZGodzina::aktualnaPlusDni(7));
               pokazListe(lista);
+              cout << endl;
+              system("pause");
+              system("cls");
           } else if (element == 2) {
               auto koniec_miesiaca = DataZGodzina::aktualnaData();
               koniec_miesiaca.dzien = 31;
               auto lista = zarzadca.FiltrujOdDo(DataZGodzina::aktualnaData(), koniec_miesiaca);
               pokazListe(lista);
+              cout << endl;
+              system("pause");
+              system("cls");
           } else if (element == 3) {
             auto lista = zarzadca.Podajliste();
             pokazListe(lista);
+            cout << endl;
+            system("pause");
+            system("cls");
           }
         }
 
@@ -144,6 +181,7 @@ int main()
 
             if (takCzyNie(wiadomosc))
             {
+                system("cls");
                 auto lista = zarzadca.Podajliste();
                 zarzadca.Usun(lista);
                 wczytajOdNowa(importer, zarzadca);
@@ -151,6 +189,7 @@ int main()
         }
 
         else {
+          system("cls");
           cout << "Nie ma takiej opcji" << endl;
         }
     }
