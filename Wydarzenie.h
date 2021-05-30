@@ -56,12 +56,11 @@ public:
     /** \brief Przechowuje date i godzine stworzenia listy wydarzen
    */
     DataZGodzina created;
+
     /** \brief Przechowuje zmnienna bool , czy chcemy powtarzac wydarzenie
-   */
-    
+     */
     Powtarzanie powtarzanie;
 
-    string powtarzalnosc;
     /** \brief Przechowuje zmnienna bool , czy chcemy powtarzac wydarzenie
    */
 
@@ -72,13 +71,13 @@ public:
     string str() {
    
         return "\n Wydarzenie POCZATEK: \n" 
-                      "Data rozpoczecia: " +  data_start.str() + "\n"
-                   +    "Data zakoncenia: " +    data_end.str() + "\n"
-                   +    "Powtarzanie Wydarzenia: " + powtarzanie.stworzWpis() + "\n"
-                   +       "tytul: " +             tytul + "\n"
-                   +     "notatka: " +           notatka + "\n"
-                   + "lokalizacja: " +     lokalizacja + "\n"
-                   +     "created: " +     created.str() + "\n";
+                     "Data rozpoczecia: "       + data_start.str() + "\n"
+                   + "Data zakoncenia: "        + data_end.str() + "\n"
+                   + "Powtarzanie Wydarzenia: " + powtarzanie.stworzWpis() + "\n"
+                   + "tytul: "                  + tytul + "\n"
+                   + "notatka: "                + notatka + "\n"
+                   + "lokalizacja: "            + lokalizacja + "\n"
+                   + "created: "                + created.str() + "\n";
     }
 
 };

@@ -1,25 +1,17 @@
 #include "Importer.h"
-#include "Export.h"
-#include <iostream>
+#include "Sterowanie.h"
 #include <fstream>
+#include <iostream>
 
 
-
- string Importer::wczytaj_nazwe()
+string Importer::wczytaj_nazwe()
 {
-    cout << "PODAJ NAZWE PLIKU:\t";
-    string nazwaPliku;
-
-    cin >> nazwaPliku;
-
+    auto nazwaPliku = pobierzString("PODAJ NAZWE PLIKU:\t");
     nazwaPliku += ".ics";
-
     return nazwaPliku;
 }
 
-
-
- vector<Wydarzenie> Importer::wczytaj(string Wczytaj)
+vector<Wydarzenie> Importer::wczytaj(string Wczytaj)
 {
     ifstream plik;
 
@@ -127,6 +119,68 @@ string wez_dane(string linia) {
     return linia.substr(linia.find(':') + 1);
 }
 
+Powtarzanie Importer::wez_powtarzalnosc(string linia) {
+  Powtarzanie powtarzanie;
+  
+  if (linia != "FREQ=") {
+    auto podzial = linia.find(';');
+    auto powtarzalnosc = linia.substr(0, podzial);
+    auto dzien = linia.substr(podzial + 1, linia.length());
+
+    powtarzanie.powtarzaj = true;
+    sprawdzPowtarzalnosc(powtarzanie, powtarzalnosc);
+    sprawdzDzienPowtarzania(powtarzanie, dzien);
+  }
+  return powtarzanie;
+}
+
+void Importer::sprawdzDzienPowtarzania(Powtarzanie &powtarzanie, string linia) {
+  auto dzien = linia.substr(linia.find('=') + 1);
+  if (dzien == "MO") {
+    powtarzanie.ktoryDzien = dzien;
+  }
+  else if (dzien == "TU") {
+    powtarzanie.ktoryDzien = dzien;
+  }
+  else if (dzien == "WE") {
+    powtarzanie.ktoryDzien = dzien;
+  }
+  else if (dzien == "TH") {
+    powtarzanie.ktoryDzien = dzien;
+  }
+  else if (dzien == "FR") {
+    powtarzanie.ktoryDzien = dzien;
+  }
+  else if (dzien == "SA") {
+    powtarzanie.ktoryDzien = dzien;
+  }
+  else if (dzien == "SU") {
+    powtarzanie.ktoryDzien = dzien;
+  }
+  else {
+    cout << "Blad przetwarzania - nie prawidlowy zapis dnia powtarzania\n" << linia << endl; 
+    powtarzanie.powtarzaj = false;
+  }
+}
+
+void Importer::sprawdzPowtarzalnosc(Powtarzanie &powtarzanie, string linia) {
+  auto czestotliwosc = linia.substr(linia.find('=')+1, linia.length());
+  if (czestotliwosc == "DAILY") {
+    powtarzanie.typ = TypPowtarzania::DZIENNIE;
+  }
+  else if (czestotliwosc == "WEEKLY") {
+    powtarzanie.typ = TypPowtarzania::TYGODNIOWO;
+  }
+  else if (czestotliwosc == "MONTHLY") {
+    powtarzanie.typ = TypPowtarzania::MIESIECZNIE;
+  }
+  else {
+    cout << "Blad przetwarzania - nie prawidlowy zapis powtarzania\n" << linia << endl; 
+    powtarzanie.powtarzaj = false;
+  }
+}
+
+
 DataZGodzina wez_date_godzine(string date) { 
 
     string rok;
@@ -179,7 +233,7 @@ void Importer::ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie)
         wydarzenie.sequence = wez_dane(linia);
         break;
     case IcsType::RRULE:
-        wydarzenie.powtarzalnosc = wez_dane(linia);
+        wydarzenie.powtarzanie = wez_powtarzalnosc(wez_dane(linia));
         break;
     }
 }

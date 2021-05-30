@@ -11,7 +11,7 @@ string pobierzString(const char* wiadomosc) {
 }
 
 char pobierzZnak(const char* wiadomosc) {
-    char* nazwa = new char[2];
+    char* nazwa = new char[256];
     cout << wiadomosc;
 
     cin.getline(nazwa, 256);
@@ -40,8 +40,7 @@ bool takCzyNie(const char* wiadomosc) {
 int pobierzNumer(const char* wiadomosc, int max) {
     int element;
     do {
-        cout << wiadomosc;
-        cin >> element;
+      element = pobierzLiczbe(wiadomosc);
     } while (element <= 0 && element > max);
     return element;
 }

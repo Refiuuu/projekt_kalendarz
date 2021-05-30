@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Wydarzenie.h"
+#include "Powtarzanie.h"
 #include <vector>
 #include <string>
 
@@ -39,6 +40,10 @@ public:
     string wczytaj_nazwe();
 
 private:
+
+    Powtarzanie wez_powtarzalnosc(string linia);
+    void sprawdzDzienPowtarzania(Powtarzanie &powtarzanie, string linia);
+    void sprawdzPowtarzalnosc(Powtarzanie &powtarzanie, string linia);
 
     IcsType wykryj_typ(string linia);
     void ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie);

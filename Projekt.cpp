@@ -28,8 +28,6 @@ void wczytajOdNowa(Importer &importer, Zarzadca &zarzadca) {
 
 int main()
 {
-   
-
     Importer importer;
     Zarzadca zarzadca;
     Export exporter;
