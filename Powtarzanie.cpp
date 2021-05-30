@@ -17,3 +17,4 @@ string Powtarzanie::stworzWpis() {
     return "";
   }
 }
+

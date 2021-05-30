@@ -29,7 +29,9 @@ enum IcsType {
     ERROR = -1
       
 };
-
+/// <summary>
+/// Importer odpowiada za wczytywanie oraz rozszyfrowywanie pliku .ics.
+/// </summary>
 class Importer {
 public:
 

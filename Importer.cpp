@@ -115,6 +115,10 @@ IcsType Importer::wykryj_typ(string linia)
         return IcsType::TRANSP;
     }
 
+    if (linia.find("RRULE:FREQ=") != -1) {
+        return IcsType::RRULE;
+    }
+
     return IcsType::ERROR;
       
 }
@@ -173,6 +177,9 @@ void Importer::ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie)
         break;
     case IcsType::SEQUENCE:
         wydarzenie.sequence = wez_dane(linia);
+        break;
+    case IcsType::RRULE:
+        wydarzenie.powtarzalnosc = wez_dane(linia);
         break;
     }
 }

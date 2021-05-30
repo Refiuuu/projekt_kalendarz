@@ -14,7 +14,7 @@ char pobierzZnak(const char* wiadomosc) {
     char* nazwa = new char[2];
     cout << wiadomosc;
 
-    cin.getline(nazwa, 2);
+    cin.getline(nazwa, 256);
 
     return nazwa[0];
 }

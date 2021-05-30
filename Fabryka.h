@@ -5,7 +5,9 @@
 #include <string>
 
 using namespace std;
-
+/// <summary>
+/// Fabryka odpowiada za tworzenie i modyfikowaanie wydarzen.
+/// </summary>
 class Fabryka
 {
 public:
@@ -17,6 +19,7 @@ public:
     DataZGodzina dodaj_godzine();
     DataZGodzina Data_zapisu_od();
     DataZGodzina Data_zapisu_do();
+
 private:
 
     int rok;
@@ -36,7 +39,9 @@ private:
     string dodaj_lokalizacje();
     string dodaj_tytul();
     DataZGodzina AktualnaData();
+   // DataZGodzina Przypomnienie();
     Powtarzanie Zasada();
     string Jaki_dzien();
+
 
 };

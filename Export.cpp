@@ -38,7 +38,7 @@ void Export::zapisz_wydarzenie(Wydarzenie &wydarzenie, ofstream &plik)
         << "SUMMARY:" << wydarzenie.notatka << endl
         << "LAST-MODIFIED:" << wydarzenie.created.do_zapisu() << endl
         << "LOCATION:" << wydarzenie.lokalizacja << endl
-        <<  "SEQUENCE:0" << endl
+        << "SEQUENCE:0" << endl
         << "STATUS:CONFIRMED" << endl
         << "DESCRIPTION:" << wydarzenie.tytul << endl
         << "TRANSP:OPAQUE" << endl

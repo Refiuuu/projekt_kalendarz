@@ -442,6 +442,34 @@ DataZGodzina Fabryka::Data_zapisu_do()
 
     return dataIgodzina;
 }
+/*
+DataZGodzina   Fabryka::Przypomnienie()
+{
+    DataZGodzina zapisane;
+
+    int ro = AktualnaData().rok;
+    int mies = AktualnaData().miesiac;
+    int dzi = AktualnaData().dzien;
+
+    int dzien = zapisane.dzien;
+    int miesiac = zapisane.miesiac;
+    int rok = zapisane.rok;
+
+
+    if (ro == rok)
+    {
+        if (mies == miesiac)
+        {
+            if (dzi - 1 == dzien)
+            {
+                return true;
+            }
+        }
+    }
+
+}
+*/
+
 
 DataZGodzina Fabryka::AktualnaData()
 {

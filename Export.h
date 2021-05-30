@@ -8,7 +8,9 @@
 
 
 using namespace std;
-
+/// <summary>
+/// Export odpowiada za zapis pliku o podanej nazwie do odpowiedniego formatu.
+/// </summary>
 class Export
 {
 public:
