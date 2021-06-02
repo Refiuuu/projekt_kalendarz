@@ -54,7 +54,7 @@ public:
 
 	void pokazListe(vector<Wydarzenie>& lista);
 
-	void pokazListeNaElement(vector<Wydarzenie>& lista, int element);
+	void wyswietl(Wydarzenie& wydarzenie);
 
 private:
 	/** \brief Funkcja ktora przechowuje liste wydarzen

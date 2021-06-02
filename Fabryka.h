@@ -32,7 +32,7 @@ public:
     /// <param name="oryginalneWydarzenie">Wydarzenie ktore ma byc modyf</param>
     /// <returns>Zwraca zmieniona liste</returns>
  
-    Wydarzenie modyfikuj_wydarzenie(const Wydarzenie &oryginalneWydarzenie);
+    Wydarzenie modyfikuj_wydarzenie(const Wydarzenie &oryginalneWydarzenie, int opcja);
     /// <summary>
     /// Funkcja odpowiada za dodanie daty przez uzytkownika
     /// </summary>
@@ -52,7 +52,7 @@ public:
     /// Funkcja odpowiada za polaczenie daty i godziny w calosc
     /// </summary>
     /// <returns>Zwraca zlaczona date i godzine</returns>
-    DataZGodzina Data_zapisu_do();
+    DataZGodzina Data_zapisu_do(DataZGodzina& dataStartu);
 
 
 private:

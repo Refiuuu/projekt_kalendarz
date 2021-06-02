@@ -1,7 +1,6 @@
 #include "Fabryka.h"
 #include "Powtarzanie.h"
 #include "Sterowanie.h"
-#include "Zarzadca.h"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -22,7 +21,7 @@ Wydarzenie Fabryka::StworzWydarzenie()
     Wydarzenie w;
 
     w.data_start = Data_zapisu_od();
-    w.data_end = Data_zapisu_do();
+    w.data_end = Data_zapisu_do(w.data_start);
     system("cls");
     w.powtarzanie = Zasada();
     system("cls");
@@ -40,64 +39,42 @@ Wydarzenie Fabryka::StworzWydarzenie()
 /// </summary>
 /// <param name="oryginalneWydarzenie">Wybrane wydarzenie do modyfikacji</param>
 /// <returns></returns>
-Wydarzenie Fabryka::modyfikuj_wydarzenie(const Wydarzenie &oryginalneWydarzenie) {
+Wydarzenie Fabryka::modyfikuj_wydarzenie(const Wydarzenie &oryginalneWydarzenie, int opcja) {
     Wydarzenie nowe;
-    Zarzadca zarzadca;
     nowe.data_start = oryginalneWydarzenie.data_start;
     nowe.data_end = oryginalneWydarzenie.data_end;
     nowe.tytul = oryginalneWydarzenie.tytul;
     nowe.notatka = oryginalneWydarzenie.notatka;
     nowe.lokalizacja = oryginalneWydarzenie.lokalizacja;
     nowe.created = oryginalneWydarzenie.created;
-
  
-    auto menu_modyfikacji =
-      "Co chcesz Modyfikowac ?\n" 
-      "1.Data rozpoczecia.\n"
-      "2.Data zakonczenia.\n"
-      "3.Tytul wydarzenia.\n"
-      "4.Notatka.\n"
-      "5.Lokalizacja.\n"
-      "6.Zakoncz edycje.\n"
-      "Podaj numer akcji:\t";
-
-    while (true)
+    if (opcja == 1)
     {
-    
-        auto wpisz = pobierzLiczbe(menu_modyfikacji);
-        if (wpisz == 1)
-        {
-          system("cls");
-          nowe.data_start = Data_zapisu_od();
-        } 
-        else if (wpisz == 2)
-        {
-          system("cls");
-          nowe.data_end = Data_zapisu_do();
-        } 
-        else if (wpisz == 3)
-        {
-          system("cls");
-          nowe.tytul = dodaj_tytul();
-        } 
-        else if (wpisz == 4)
-        {
-          system("cls");
-          nowe.notatka = dodaj_notatke();
-        } 
-        else if (wpisz == 5)
-        {
-          system("cls");
-          nowe.lokalizacja = dodaj_lokalizacje();
-        }
-        else if (wpisz == 6)
-        {
-            system("cls");
-            break;
-        }
-        else {
-          cout << "Nie ma takiej opcji.\n\n";
-        }
+      system("cls");
+      nowe.data_start = Data_zapisu_od();
+    } 
+    else if (opcja == 2)
+    {
+      system("cls");
+      nowe.data_end = Data_zapisu_do(nowe.data_start);
+    } 
+    else if (opcja == 3)
+    {
+      system("cls");
+      nowe.tytul = dodaj_tytul();
+    } 
+    else if (opcja == 4)
+    {
+      system("cls");
+      nowe.notatka = dodaj_notatke();
+    } 
+    else if (opcja == 5)
+    {
+      system("cls");
+      nowe.lokalizacja = dodaj_lokalizacje();
+    }
+    else {
+      cout << "Nie ma takiej opcji.\n\n";
     }
     return nowe;
 }
@@ -401,23 +378,29 @@ DataZGodzina Fabryka::Data_zapisu_od()
 /// <summary>
 /// Funkcja ta odpowiada zlaczenie w jedna calosc daty i godziny do kiedy ma trwac wydarzenie 
 /// </summary>
-DataZGodzina Fabryka::Data_zapisu_do()
+DataZGodzina Fabryka::Data_zapisu_do(DataZGodzina &dataStartu)
 {
-    cout << "\nPodaj do kiedy chcialbys dodac wydarzenie?" << "\n";
-    cout << "Zapisz ja w formacie [2021 05 17][Rok Miesiac Dzien]" << "\n";
-    cout << "Po wpisanym roku wcisniej ENTER etc..." << "\n";
-    auto data = Fabryka::dodaj_data();
-    cout << endl;
-    cout << "Podaj do ktorej ma byc to wydarzenie w formacie [12 00 00][Godzina Minuta Sekunda]" << "\n";
-    auto godzina = Fabryka::dodaj_godzine();
-
     DataZGodzina dataIgodzina;
-    dataIgodzina.rok = data.rok;
-    dataIgodzina.miesiac = data.miesiac;
-    dataIgodzina.dzien = data.dzien;
-    dataIgodzina.godzina = godzina.godzina;
-    dataIgodzina.minuta = godzina.minuta;
-    dataIgodzina.sekunda = godzina.sekunda;
+    while (true) {
+      cout << "\nPodaj do kiedy chcialbys dodac wydarzenie?" << "\n";
+      cout << "Zapisz ja w formacie [2021 05 17][Rok Miesiac Dzien]" << "\n";
+      cout << "Po wpisanym roku wcisniej ENTER etc..." << "\n";
+      auto data = Fabryka::dodaj_data();
+      cout << endl;
+      cout << "Podaj do ktorej ma byc to wydarzenie w formacie [12 00 00][Godzina Minuta Sekunda]" << "\n";
+      auto godzina = Fabryka::dodaj_godzine();
+
+      dataIgodzina.rok = data.rok;
+      dataIgodzina.miesiac = data.miesiac;
+      dataIgodzina.dzien = data.dzien;
+      dataIgodzina.godzina = godzina.godzina;
+      dataIgodzina.minuta = godzina.minuta;
+      dataIgodzina.sekunda = godzina.sekunda;
+      if (dataIgodzina.str() >= dataStartu.str()) {
+        break;
+      }
+      cout << "Data koncowa wydarzenie jest przed data rozpoczecia\n";
+    }
 
     return dataIgodzina;
 }

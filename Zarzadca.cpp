@@ -42,12 +42,11 @@ void Zarzadca::UsunWydarzenia(int numerwydarzenia)
 }
 
 /// <summary>
-/// Wyswietla danego elementu z listy
+/// Wyswietla podane wydarzenie
 /// </summary>
-/// <param name="lista">Lista</param>
-void Zarzadca::pokazListeNaElement(vector<Wydarzenie>& lista, int element) {
-
-    cout << lista.at(element - 1).str() << endl;
+/// <param name="wydarzenie">Wydarzenie</param>
+void Zarzadca::wyswietl(Wydarzenie &wydarzenie) {
+    cout << wydarzenie.str() << endl;
 }
 
 /// <summary>

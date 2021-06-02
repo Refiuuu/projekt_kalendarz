@@ -168,10 +168,23 @@ int main()
 
             system("cls");
   
-            zarzadca.pokazListeNaElement(lista, element);
+            auto menu_modyfikacji =
+              "Co chcesz Modyfikowac ?\n" 
+              "1.Data rozpoczecia.\n"
+              "2.Data zakonczenia.\n"
+              "3.Tytul wydarzenia.\n"
+              "4.Notatka.\n"
+              "5.Lokalizacja.\n"
+              "6.Zakoncz edycje.\n"
+              "Podaj numer akcji:\t";
 
-            auto oryginalneWydarzenie = lista.at(element - 1);
-            auto noweWydarzenie = fabryka.modyfikuj_wydarzenie(oryginalneWydarzenie);
+            Wydarzenie noweWydarzenie = lista.at(element - 1);;
+            int opcja;
+            do {
+               zarzadca.wyswietl(noweWydarzenie);
+               opcja = pobierzNumer(menu_modyfikacji, 6);
+               noweWydarzenie = fabryka.modyfikuj_wydarzenie(noweWydarzenie, opcja);
+            } while (opcja != 6);
             zarzadca.Modyfikuj(noweWydarzenie, element);
           
         }
