@@ -5,8 +5,15 @@
 #include <vector>
 #include <string>
 
-using namespace std;
+/**
+* \file Importer.h
+* \brief Plik naglowkowy modulu Importer
+*/
 
+using namespace std;
+/// <summary>
+/// Enumeracja ktora przechowuje wazne typy znajdujace sie w pliku .ics
+/// </summary>
 enum IcsType {
     BEGIN_VCALENDAR,
     END_VCALENDAR,
@@ -31,21 +38,37 @@ enum IcsType {
       
 };
 /// <summary>
-/// Importer odpowiada za wczytywanie oraz rozszyfrowywanie pliku .ics.
+/// Importer odpowiada za wczytywanie oraz rozszyfrowywanie pliku .ics
 /// </summary>
 class Importer {
+
 public:
-
+    /// <summary>
+    /// Funkcja odpowiadajaca za wczytywanie z pliku
+    /// </summary>
     vector<Wydarzenie> wczytaj(string Wczytaj);
+   
+    /** \brief Wczytanie nazwy pliku z ktorego bedziemy korzystac
+    */
     string wczytaj_nazwe();
-
+  
 private:
-
+   /** \brief Pobranie powtarzania z pliku
+   */
     Powtarzanie wez_powtarzalnosc(string linia);
+    /** \brief Sprawdzanie dnia powtarzania
+    */
+    
     void sprawdzDzienPowtarzania(Powtarzanie &powtarzanie, string linia);
+    /** \brief Sprawdzanie jakie wystepuje powtarzanie
+    */
     void sprawdzPowtarzalnosc(Powtarzanie &powtarzanie, string linia);
-
+    /** \brief Wykrywanie typu z enumeracji w pliku
+    */
     IcsType wykryj_typ(string linia);
+
+    /** \brief Ustawianie pola enumeracji na odpowiednim polu do zapisu
+    */
     void ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie);
    
 };

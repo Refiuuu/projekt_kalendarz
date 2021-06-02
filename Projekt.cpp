@@ -9,16 +9,36 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
-#include <BearLibTerminal.h>
+
+/**
+* \file Projekt.cpp
+* \brief Glowny plik zrodlowyw ktorym znajduje sie "int main()"
+*/
 
 using namespace std;
 
-void pokazListe(vector<Wydarzenie> &lista) {
-  for (int i = 1; i <= lista.size(); i++) {
-    cout << i << ": " <<lista.at(i-1).str() << endl;
-  }
-}
+/**
+* \mainpage
+* \Aplikacja "Kalendarz" ktora w pelni przetwarza oraz tworzy pliki .ics oraz dziala na zasadzie ICAL.
+* \Program umozliwia stworzenie listy wydarzen oraz ich ewentualna korekte, nastepnie mozliwosc zapisu.
+* \Odczyt wlasnego pliku .ics polega na wpisaniu jego nazwy na poczatku dzialania programu.
+* \Dalej nalezy juz tylko postepowac zgodnie z komunikatami pojawiajacymi sie na ekranie konsoli.
+* 
+* 
+* \author Rafal Olender
+* \date 2021.06.01
+* \version Koncowa
+* 
+* \a raf.olender@wp.pl
+*/
 
+
+
+/// <summary>
+/// Wczytywanie od nowa pliku
+/// </summary>
+/// <param name="importer"></param>
+/// <param name="zarzadca"></param>
 void wczytajOdNowa(Importer &importer, Zarzadca &zarzadca) {
     if (takCzyNie("Czy chcesz otworzyc istniejacy juz plik? [T/N]:  "))
     {
@@ -28,7 +48,20 @@ void wczytajOdNowa(Importer &importer, Zarzadca &zarzadca) {
     }
     system("cls");
 }
+/// <summary>
+/// Powitanie
+/// </summary>
+void Intro() {
+    cout << "\t\t\t\t\tWitaj w programie 'Kalendarz' :)\n\n";
+    system("pause");
+    system("cls");
+}
 
+/// <summary>
+/// Wyswietlanie miesiaca jako nazwa
+/// </summary>
+/// <param name="cos">Miesiac do zamiany</param>
+/// <returns>Napis w ulepszonym formacie</returns>
 string LadnaNazwa(DataZGodzina cos)
 {
     string miesiac;
@@ -51,12 +84,13 @@ string LadnaNazwa(DataZGodzina cos)
 int main()
 {
    
-
+    srand(time(NULL));
     Importer importer;
     Zarzadca zarzadca;
     Export exporter;
     Fabryka fabryka;
 
+    Intro();
     wczytajOdNowa(importer, zarzadca);
 
     string ladna = LadnaNazwa(DataZGodzina::aktualnaPlusDni(0));
@@ -67,8 +101,9 @@ int main()
     {
         
 
-   cout<< "\n**Projekt Zap Kalendarz**\n\n" <<
-          "Aktualna data:"<< DataZGodzina::aktualnaPlusDni(0).dzien <<"  "<< ladna <<"  "<<DataZGodzina::aktualnaPlusDni(0).rok <<"\n\n" <<
+   cout<< "**Projekt Zap Kalendarz**\n\n" <<
+          "Made by Rafal Olender\n\n" <<
+          "Aktualna data:  ["<< DataZGodzina::aktualnaPlusDni(0).dzien <<"  "<< ladna <<"  "<<DataZGodzina::aktualnaPlusDni(0).rok <<"]"<<"\n\n" <<
           "\n1.Dodaj Event\n" <<
           "2.Usun Event\n" <<
           "3.Modyfikuj\n" <<
@@ -91,7 +126,7 @@ int main()
         auto do_przypomnienia = zarzadca.FiltrujOdDo(dzisiaj, jutro);
         cout << "        Najblizsze wydarzenia\n";
         cout << "_____________________________________\n";
-        pokazListe(do_przypomnienia);
+        zarzadca.pokazListe(do_przypomnienia);
         cout << "_____________________________________\n";
 
         wpisz = pobierzString("Ktora opcje chcesz wybrac?: ");
@@ -105,31 +140,39 @@ int main()
 
         else if (wpisz == "2")
         {
+          system("cls");
+
           auto lista = zarzadca.Podajliste();
-          pokazListe(lista);
-          auto element = pobierzNumer("Ktory element chcesz usunac?\n", lista.size());
+          zarzadca.pokazListe(lista);
+          auto element = pobierzNumer("Ktory element chcesz usunac?\n\n", lista.size());
           zarzadca.UsunWydarzenia(element);
+          system("cls");
         }
 
         else if (wpisz == "3")
         {
-          auto lista = zarzadca.Podajliste();
-          if (lista.size() == 0)
-          {   
-              system("cls");
-              cout << "********Nie ma w tym pliku jeszcze zadnego elementu********" << endl;    
-              continue;
-          }
-          system("cls");
-          pokazListe(lista);
-          int element;
-          do {
-             element = pobierzNumer("Ktory element chcesz modyfikowac?:  ", lista.size());
-          } while (!(element > 0 && element <= lista.size()));
+            system("cls");
+            auto lista = zarzadca.Podajliste();
+            zarzadca.pokazListe(lista);
 
-          auto oryginalneWydarzenie = lista.at(element - 1);
-          auto noweWydarzenie = fabryka.modyfikuj_wydarzenie(oryginalneWydarzenie);
-          zarzadca.Modyfikuj(noweWydarzenie, element);
+            if (lista.size() == 0)
+            {
+                cout << "Nie ma w tym pliku jeszcze zadnego elementu !!!" << endl;
+                continue;
+            }
+
+            int element;
+            do {
+                element = pobierzNumer("Ktory element chcesz modyfikowac?\n", lista.size());
+            } while (!(element > 0 && element <= lista.size()));
+
+            system("cls");
+  
+            zarzadca.pokazListeNaElement(lista, element);
+
+            auto oryginalneWydarzenie = lista.at(element - 1);
+            auto noweWydarzenie = fabryka.modyfikuj_wydarzenie(oryginalneWydarzenie);
+            zarzadca.Modyfikuj(noweWydarzenie, element);
           
         }
 
@@ -138,18 +181,21 @@ int main()
           auto nazwa_do_exportu = importer.wczytaj_nazwe();
           exporter.export_do_pliku(nazwa_do_exportu, lista);
           cout << "Zapisane\n";
+          system("pause");
+          system("cls");
         }
 
         else if (wpisz == "P") {
           system("cls");
-          cout << "1.Wydarzenia w tym tygodniu\n" 
+          cout << "1.Wydarzenia w najblizszych 7 dniach\n" 
                << "2.Wydarzenia w tym miesiacu\n"
-               << "3.Wszystkie\n";
+               << "3.Wszystkie wydarzenia zapisane w pliku\n\n";
           auto element = pobierzNumer("W jaki sposob chcesz wyswietlic wydarzenia ?:\t", 3);
+          system("cls");
 
           if (element == 1) {
               auto lista = zarzadca.FiltrujOdDo(DataZGodzina::aktualnaData(), DataZGodzina::aktualnaPlusDni(7));
-              pokazListe(lista);
+              zarzadca.pokazListe(lista);
               cout << endl;
               system("pause");
               system("cls");
@@ -157,13 +203,13 @@ int main()
               auto koniec_miesiaca = DataZGodzina::aktualnaData();
               koniec_miesiaca.dzien = 31;
               auto lista = zarzadca.FiltrujOdDo(DataZGodzina::aktualnaData(), koniec_miesiaca);
-              pokazListe(lista);
+              zarzadca.pokazListe(lista);
               cout << endl;
               system("pause");
               system("cls");
           } else if (element == 3) {
             auto lista = zarzadca.Podajliste();
-            pokazListe(lista);
+            zarzadca.pokazListe(lista);
             cout << endl;
             system("pause");
             system("cls");
@@ -171,7 +217,18 @@ int main()
         }
 
         else if (wpisz == "quit") {
-            cout << "\nZamykanie programu :)!";
+            auto wiadomosc =
+                "\nZamykanie programu :)!\n"
+                "Wszystkie niezapisane zmiany zostana utracone, czy chcesz zapisac? [T/N]\n\n";
+
+            if (takCzyNie(wiadomosc))
+            {
+                auto lista = zarzadca.Podajliste();
+                auto nazwa_do_exportu = importer.wczytaj_nazwe();
+                exporter.export_do_pliku(nazwa_do_exportu, lista);
+                cout << "Zapisane\n";
+                system("pause");
+            }
         }
 
         else if (wpisz == "N") {
@@ -190,7 +247,7 @@ int main()
 
         else {
           system("cls");
-          cout << "Nie ma takiej opcji" << endl;
+          cout << "***Nie ma takiej opcji***\n" << endl;
         }
     }
 

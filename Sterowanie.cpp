@@ -1,6 +1,12 @@
 #include "Sterowanie.h"
 #include <iostream>
 
+/**
+* \file Sterowanie.cpp
+* \brief Plik zrodlowy modulu Sterowanie
+*/
+
+
 string pobierzString(const char* wiadomosc) {
     char* nazwa = new char[256];
     cout << wiadomosc;

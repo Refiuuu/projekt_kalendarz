@@ -2,8 +2,18 @@
 #include "Sterowanie.h"
 #include <fstream>
 #include <iostream>
+#include <iomanip>
+
+/**
+* \file Importer.cpp
+* \brief Plik zrodlowy modulu Importer
+*/
 
 
+/// <summary>
+/// Wczytywanie nazwy przez uzytkownika
+/// </summary>
+/// <returns></returns>
 string Importer::wczytaj_nazwe()
 {
     auto nazwaPliku = pobierzString("PODAJ NAZWE PLIKU:\t");
@@ -11,11 +21,24 @@ string Importer::wczytaj_nazwe()
     return nazwaPliku;
 }
 
+/// <summary>
+/// Wczytywanie danych z pliku o podanej nazwie przez uzytkownika
+/// </summary>
+/// <param name="Wczytaj">Plik ktory ma byc wczytany</param>
+/// <returns>Zwraca liste wydarzen zapisanych w pliku </returns>
 vector<Wydarzenie> Importer::wczytaj(string Wczytaj)
 {
     ifstream plik;
+    Importer pliczek;
 
     plik.open(Wczytaj);
+
+    while(!plik.good())
+    { 
+        cout << "BLAD WCZYTYWANIA, NIE MA TAKIEGO PLIKU: \n\n";
+        auto nowy = pliczek.wczytaj_nazwe();
+        plik.open(nowy);
+    }
 
     string linia;
     string tytul;
@@ -61,6 +84,11 @@ vector<Wydarzenie> Importer::wczytaj(string Wczytaj)
     return wszystkie_wydarzenia;
 }
 
+/// <summary>
+/// Wykrywanie znaczacyh slow w pliku do jego poprawnego pretwarzania
+/// </summary>
+/// <param name="linia">Przechodzenie przez plik linia po lini i przypisywanie enumeracji odpowiednim wartoscia linii</param>
+/// <returns></returns>
 IcsType Importer::wykryj_typ(string linia)
 {
     if (linia.find("BEGIN:VEVENT") != -1) {
@@ -114,10 +142,16 @@ IcsType Importer::wykryj_typ(string linia)
     return IcsType::ERROR;
       
 }
- 
+
 string wez_dane(string linia) {
     return linia.substr(linia.find(':') + 1);
 }
+
+
+/// <summary>
+/// Szukanie powtarzalnosci zapisanej w pliku
+/// </summary>
+/// <param name="linia">Odpowiednia linia z pliku</param>
 
 Powtarzanie Importer::wez_powtarzalnosc(string linia) {
   Powtarzanie powtarzanie;
@@ -134,6 +168,9 @@ Powtarzanie Importer::wez_powtarzalnosc(string linia) {
   return powtarzanie;
 }
 
+/// <summary>
+/// Przypisanie odpowiedniego napisu w zaleznosci do wpisanego dnia przez uzytkownika
+/// </summary>
 void Importer::sprawdzDzienPowtarzania(Powtarzanie &powtarzanie, string linia) {
   auto dzien = linia.substr(linia.find('=') + 1);
   if (dzien == "MO") {
@@ -162,7 +199,11 @@ void Importer::sprawdzDzienPowtarzania(Powtarzanie &powtarzanie, string linia) {
     powtarzanie.powtarzaj = false;
   }
 }
-
+/// <summary>
+/// Funkcja odpowiada za przypisanie powtarzania w zaleznosci do wybranego numeru przez uzytkownika
+/// </summary>
+/// <param name="powtarzanie"></param>
+/// <param name="linia"></param>
 void Importer::sprawdzPowtarzalnosc(Powtarzanie &powtarzanie, string linia) {
   auto czestotliwosc = linia.substr(linia.find('=')+1, linia.length());
   if (czestotliwosc == "DAILY") {
@@ -180,7 +221,11 @@ void Importer::sprawdzPowtarzalnosc(Powtarzanie &powtarzanie, string linia) {
   }
 }
 
-
+/// <summary>
+/// Funkcja ktora odkodowywuje zapisana date i godzine z pliku
+/// </summary>
+/// <param name="date">Data</param>
+/// <returns>Zwraca odkodowana date i godzine z pliku ICAL</returns>
 DataZGodzina wez_date_godzine(string date) { 
 
     string rok;
@@ -207,7 +252,12 @@ DataZGodzina wez_date_godzine(string date) {
 
     return dataIgodzina;
 }
-
+/// <summary>
+/// Pobiera wartosc z danej linii pliku, porownuje ja z enumeracja oraz przypisuje do odpowiedniej zmiennej wydarzenia 
+/// </summary>
+/// <param name="typ">enumeracja</param>
+/// <param name="linia">Linia w pliku</param>
+/// <param name="wydarzenie">Wydarzenie ktore bedzie mialo przypisane zmienne</param>
 void Importer::ustaw_pole(IcsType typ, string linia, Wydarzenie &wydarzenie)
 {
     switch (typ) {

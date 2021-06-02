@@ -4,6 +4,11 @@
 
 using namespace std;
 
+/**
+* \file Zarzadca.h
+* \brief Plik naglowkowy modulu Zarzadca
+*/
+
 /// <summary>
 /// Zarzadca odpowiada za zarzadzanie programem, tzn (przechowuje liste wydarzen i podaje ja odpowiednio do funkcji)
 /// </summary>
@@ -11,11 +16,20 @@ using namespace std;
 class Zarzadca
 {
 public:
-	
 	/** \brief Dodawanie wydarzen na koniec listy
 	*/
+
+	/// <summary>
+	/// Dodawanie wydarzenia do listy
+	/// </summary>
+	/// <param name="nowe_wydarzenia">Lista Wydarzen</param>
 	void DodajWydarzenia(vector<Wydarzenie> &nowe_wydarzenia);
 
+	/// <summary>
+	/// Dodaj wydarzenie
+	/// </summary>
+	/// <param name="wydarzenia">Wydarzenie</param>
+	/// 
 	void DodajWydarzenie(Wydarzenie &wydarzenia);
 
 	/** \brief Usuwanie wydarzen z listy
@@ -37,6 +51,10 @@ public:
 	/** \brief Funkcja usuwa cala liste wydarzen
 	*/
 	void Usun(vector<Wydarzenie>& lista);
+
+	void pokazListe(vector<Wydarzenie>& lista);
+
+	void pokazListeNaElement(vector<Wydarzenie>& lista, int element);
 
 private:
 	/** \brief Funkcja ktora przechowuje liste wydarzen
